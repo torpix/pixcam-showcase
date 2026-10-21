@@ -355,6 +355,11 @@ pub fn render_html() -> Result<String> {
         .replace('<', "\\u003c").replace('>', "\\u003e").replace('&', "\\u0026");
     let html = include_str!("../assets/index.html")
         .replace(
+            "__CYCLES_PANEL__",
+            include_str!("../assets/cycles-panel.html"),
+        )
+        .replace("__CYCLES_SCRIPT__", include_str!("../assets/cycles.js"))
+        .replace(
             "__BRIDGE_PANEL__",
             include_str!("../assets/bridge-panel.html"),
         )

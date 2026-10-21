@@ -1,0 +1,1 @@
+{"cycle_id":"BOLT_CIRCLE","global_from_local":[[1,0,0,50],[0,1,0,35],[0,0,1,30],[0,0,0,1]],"pattern":{"kind":"CYCLE_CIRCULAR_PATTERN","center_mm":[0,0,0],"radius_mm":25,"start_deg":0,"sweep_deg":360,"positions":8,"direction":"counter_clockwise","feature_diameter_mm":6}}

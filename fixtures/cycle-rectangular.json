@@ -1,0 +1,1 @@
+{"cycle_id":"GRID","global_from_local":[[1,0,0,50],[0,1,0,35],[0,0,1,30],[0,0,0,1]],"pattern":{"kind":"CYCLE_RECTANGULAR_PATTERN","start_mm":[-30,-20,0],"rows":3,"columns":4,"spacing_x_mm":20,"spacing_y_mm":20,"rotation_deg":15,"feature_diameter_mm":5}}

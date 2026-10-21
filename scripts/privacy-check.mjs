@@ -17,6 +17,8 @@ const allowed=new Set([
  'tests/bridge.rs','tests/recognition.rs','tests/local_server.rs','tests/mock_mcp.py',
  'scripts/capture.mjs','scripts/bridge-browser-test.mjs','scripts/live-gui-test.py','scripts/record-bridge.mjs','scripts/bridge-benchmark.py','scripts/geometry-schema-test.py',
  'docs/bridge-benchmark.json','media/04-solidcraft-bridge-demo.png','media/05-solidcraft-import-map.png','media/06-solidcraft-connected.png','media/pixcam-solidcraft-bridge-36s.mp4',
+ 'src/cycles.rs','src/registry.rs','tests/cycles.rs','assets/cycles-panel.html','assets/cycles.js',
+ 'fixtures/cycle-circular.json','fixtures/cycle-rectangular.json','scripts/cycles-browser-test.mjs','media/07-circular-cycle.png','media/08-rectangular-cycle-3plus2.png',
 ]);
 const skip=new Set(['.git','target','test-results','node_modules']);
 const banned=new RegExp(['\\b'+('88'+'5')+'\\b','h40'+'[17]','kost'+'ka','hell'+'er','R9010'+'15885','/'+'home/','/'+'mnt/','BACKUP_'+'H','-----BEGIN '+'(?:RSA |EC |OPENSSH )?PRIVATE KEY-----','gh[pousr]_'+'[A-Za-z0-9]{20,}','AKIA'+'[0-9A-Z]{16}'].join('|'),'i');
@@ -37,10 +39,12 @@ let objects=0;
 if(process.argv.includes('--history')){
  assert.equal(fs.existsSync('.git/objects/info/alternates'),false);
  assert.equal((await git('remote')).toString().trim(),'');
- assert.equal((await git('rev-list','--all','--count')).toString().trim(),'3');
+ assert.equal((await git('rev-list','--all','--count')).toString().trim(),'5');
  assert.equal((await git('rev-list','--max-parents=0','--all','--count')).toString().trim(),'1','Public history must have one root');
- const head=(await git('rev-list','--parents','-n','1','HEAD')).toString().trim().split(' ');assert.equal(head.length,2,'v0.3 must have exactly one reviewed public parent');
- assert.equal((await git('rev-parse','HEAD^')).toString().trim().slice(0,7),'1cf208c','v0.3 parent must be the reviewed v0.2 public release');
+ const head=(await git('rev-list','--parents','-n','1','HEAD')).toString().trim().split(' ');assert.equal(head.length,2,'Release must have exactly one public parent');
+ assert.equal((await git('rev-parse','7ed8231^')).toString().trim().slice(0,7),'1cf208c','Reviewed v0.3 parent must remain v0.2');
+ await git('merge-base','--is-ancestor','7ed8231','HEAD');
+ assert.equal((await git('rev-list','--all','--merges')).toString().trim(),'','No foreign merge histories allowed');
  const tracked=(await git('ls-files','-z')).toString().split('\0').filter(Boolean);assert.deepEqual(new Set(tracked),allowed);
  const list=(await git('cat-file','--batch-all-objects','--batch-check=%(objectname) %(objecttype)')).toString().trim().split('\n');
  // Match allowed media blobs by exact content; every other object must pass the text scan.

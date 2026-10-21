@@ -2,6 +2,19 @@ use pixcam_showcase::{Result, showcase};
 fn run() -> Result<()> {
     let args: Vec<String> = std::env::args().skip(1).collect();
     match args.first().map(String::as_str) {
+        Some("cycle") if args.len()==2||args.len()==3=>{
+            let text=std::fs::read_to_string(&args[1]).map_err(|e|e.to_string())?;
+            let request=serde_json::from_str(&text).map_err(|e|e.to_string())?;
+            let result=pixcam_showcase::cycles::generate(&request)?;
+            if let Some(path)=args.get(2){pixcam_showcase::cycles::export(&result,std::path::Path::new(path))?;}
+            println!("{}",serde_json::to_string_pretty(&result).map_err(|e|e.to_string())?);Ok(())
+        }
+        Some("registry") if args.len()==3=>{
+            let cad=pixcam_showcase::recognition::analyze(&std::fs::read_to_string(&args[1]).map_err(|e|e.to_string())?)?;
+            let request=serde_json::from_str(&std::fs::read_to_string(&args[2]).map_err(|e|e.to_string())?).map_err(|e|e.to_string())?;
+            let registry=pixcam_showcase::registry::combine(Some(cad),vec![pixcam_showcase::cycles::generate(&request)?])?;
+            println!("{}",serde_json::to_string_pretty(&registry).map_err(|e|e.to_string())?);Ok(())
+        }
         Some("capture-solidcraft") => {
             let config = pixcam_showcase::bridge::config(&args[1..])?;
             println!("{}", serde_json::to_string_pretty(&pixcam_showcase::bridge::Client::capture(&config)?).map_err(|_| "Snapshot serialization failed")?);
