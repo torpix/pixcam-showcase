@@ -80,8 +80,8 @@ neutral `pixcam.manufacture-adapter/1` example and units/handedness/evidence/
 empty-pattern rejection.
 
 `node scripts/privacy-check.mjs` passed 100 explicitly allowlisted public files.
-`node scripts/privacy-check.mjs --history` passed the same tree plus 258
-reachable Git objects. The checks cover secret and private-path markers,
+`node scripts/privacy-check.mjs --history` passed the same tree and every
+object reachable from the public refs. The checks cover secret and private-path markers,
 synthetic contracts, the native fixture hash, unexpected binaries/symlinks, a
 single-root/no-merge public history, and reviewed ancestry. Media signatures
 and documented synthetic capture provenance complement the automated gate.
