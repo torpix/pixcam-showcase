@@ -11,6 +11,7 @@ if not APP:
 PLAYWRIGHT=os.environ.get('PIXCAM_PLAYWRIGHT','playwright')
 specimen=Path('fixtures/bridge-part.solidcraft')
 before=hashlib.sha256(specimen.read_bytes()).hexdigest()
+Path('test-results').mkdir(exist_ok=True)
 with tempfile.TemporaryDirectory(prefix='pixcam-synthetic-gui-') as directory:
     env=os.environ.copy()
     env.update(XDG_DATA_HOME=directory+'/data',XDG_CONFIG_HOME=directory+'/config',
