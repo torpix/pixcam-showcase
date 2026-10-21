@@ -1,10 +1,10 @@
-# pixCAM v0.3 verification
+# pixCAM v0.4 RC1 verification
 
 Verified locally on Linux, 2026-10-21. No push was performed.
 
 ## Rust
 
-- Public: 29 tests pass with `cargo test --locked --offline`; one installed-CAD test is ignored by default and passes when explicitly run.
+- Public: 38 tests pass with `cargo test --locked --offline`; one installed-CAD test is ignored by default and passes when explicitly run (39 total).
 - Real headless test: two independent MCP initialize/capture/shutdown cycles against the native 0.17.0 CLI and synthetic document.
 - Private enclosing engine: all 37 regression tests pass, with its original inputs kept private.
 - Both crates pass format and Clippy with warnings denied.
@@ -21,6 +21,10 @@ Fault injection covers timeout, process EOF, malformed JSON, wrong response ID, 
 Recognition checks document/body/bbox, ten patches → five segments, axes, origins, diameters, measured boundary spans, coaxial steps, right-handed frames, deterministic repeatability, invalid geometry, unknown external surfaces and absent-edge null spans.
 
 ## Chromium
+
+v0.4 adds `node scripts/cycles-browser-test.mjs /absolute/path/to/playwright/index.mjs`: Rust/browser parity within 1e-8 mm for both pattern fixtures, open/CW arcs, 4×3 grid rotation, 3+2 and custom rigid frames, individual coordinates, invalid-input export blocking, JSON/CSV/SVG/DXF downloads, combined CAD/cycle registry, mobile layout and zero network/JS errors. `python3 scripts/cycle-schema-test.py` independently validates requests and real CLI exports, including exact full-precision JSON/CSV registry coordinates and source parameters. The Rust DXF test reconstructs global circle centers from OCS plus extrusion normals independently of exported POINT entities.
+
+The original suites below were rerun on the v0.4 page. Actual isolated GUI capture, app exit/stale state and app restart recovery pass. The retained geometry snapshot/report schema remains compatible with v0.3; package version is 0.4.0-rc.1.
 
 Build the debug binary and dist first. Supply an installed Playwright module path as the final argument if needed.
 
@@ -39,6 +43,8 @@ The bridge suite passes offline DEMO/IMPORT with zero HTTP requests; exact Rust/
 The live harness passed against an actual isolated SolidCraft 0.17.0 GUI via --connect. It creates a temporary profile/control directory, uses a dynamically selected control port and checks the synthetic file hash. Actual app exit returns HTTP 502/stale; restarting that app recovers a fresh MCP capture through the same adapter. An unused app port fails closed. The harness closes only its own GUI and never records a desktop, active user window or credentials.
 
 ## Schemas, media and privacy
+
+Two new screenshots show the circular editor and rotated grid. The synthetic-only cycles film contains 240 actual Chromium frames, 1600 × 1100, 10 fps, exactly 24 seconds. It captures neither desktop nor user CAD. `scripts/package-rc.py` runs the public/history privacy gate, builds only committed tracked files, and then verifies every ZIP member against reviewed bytes before writing the archive and SHA-256 sidecar.
 
 ```sh
 python3 scripts/schema-test.py

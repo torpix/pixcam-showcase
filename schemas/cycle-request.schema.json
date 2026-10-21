@@ -1,0 +1,20 @@
+{
+ "$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://pixcam.local/schemas/cycle-request.schema.json",
+ "title":"pixCAM parametric geometric cycle request","type":"object","additionalProperties":false,
+ "required":["cycle_id","global_from_local","pattern"],"properties":{
+  "cycle_id":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},
+  "global_from_local":{"type":"array","minItems":4,"maxItems":4,"items":{"type":"array","minItems":4,"maxItems":4,"items":{"type":"number"}}},
+  "pattern":{"oneOf":[{"$ref":"#/$defs/circular"},{"$ref":"#/$defs/rectangular"}]}
+ },
+ "$defs":{
+  "vec3":{"type":"array","minItems":3,"maxItems":3,"items":{"type":"number"}},
+  "positive":{"type":"number","exclusiveMinimum":0},"count":{"type":"integer","minimum":1,"maximum":1024},
+  "circular":{"type":"object","additionalProperties":false,"required":["kind","center_mm","start_deg","sweep_deg","positions","feature_diameter_mm"],
+   "properties":{"kind":{"const":"CYCLE_CIRCULAR_PATTERN"},"center_mm":{"$ref":"#/$defs/vec3"},"radius_mm":{"oneOf":[{"type":"null"},{"$ref":"#/$defs/positive"}]},"pitch_diameter_mm":{"oneOf":[{"type":"null"},{"$ref":"#/$defs/positive"}]},"start_deg":{"type":"number"},"sweep_deg":{"type":"number","exclusiveMinimum":0,"maximum":360},"positions":{"$ref":"#/$defs/count"},"direction":{"enum":["clockwise","counter_clockwise"]},"feature_diameter_mm":{"$ref":"#/$defs/positive"}},
+   "oneOf":[{"required":["radius_mm"],"properties":{"radius_mm":{"$ref":"#/$defs/positive"},"pitch_diameter_mm":{"type":"null"}}},{"required":["pitch_diameter_mm"],"properties":{"pitch_diameter_mm":{"$ref":"#/$defs/positive"},"radius_mm":{"type":"null"}}}]
+  },
+  "rectangular":{"type":"object","additionalProperties":false,"required":["kind","start_mm","rows","columns","spacing_x_mm","spacing_y_mm","rotation_deg","feature_diameter_mm"],
+   "properties":{"kind":{"const":"CYCLE_RECTANGULAR_PATTERN"},"start_mm":{"$ref":"#/$defs/vec3"},"rows":{"$ref":"#/$defs/count"},"columns":{"$ref":"#/$defs/count"},"spacing_x_mm":{"$ref":"#/$defs/positive"},"spacing_y_mm":{"$ref":"#/$defs/positive"},"rotation_deg":{"type":"number"},"feature_diameter_mm":{"$ref":"#/$defs/positive"}}
+  }
+ }
+}

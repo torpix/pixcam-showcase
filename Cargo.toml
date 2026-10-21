@@ -1,10 +1,10 @@
 [package]
 name = "pixcam-showcase"
-version = "0.3.0"
+version = "0.4.0-rc.1"
 edition = "2024"
 rust-version = "1.95"
 license = "MIT"
-description = "Read-only SolidCraft MCP bridge, geometric feature recognition and 3+2 coordinate inspection"
+description = "Parametric positioning cycles, read-only SolidCraft bridge and 3+2 coordinate inspection"
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }

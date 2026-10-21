@@ -201,6 +201,24 @@ fn csv_svg_and_dxf_export_registry_coordinates_exactly() {
     assert_eq!(svg.matches("<circle ").count(), 8);
     assert_eq!(dxf.matches("\nCIRCLE\n").count(), 8);
     assert_eq!(dxf.matches("\nPOINT\n").count(), 8);
+    // Independent OCS reconstruction for a 37-degree Y tilt: Ax=+Y,
+    // Ay=(-cos,0,sin), normal=(sin,0,cos). Translation is included.
+    let (sin, cos) = 37_f64.to_radians().sin_cos();
+    for (entity, f) in dxf.split("0\nCIRCLE\n").skip(1).zip(&r.features) {
+        let lines: Vec<_> = entity.lines().collect();
+        let mut groups = std::collections::BTreeMap::new();
+        for pair in lines.as_chunks::<2>().0 {
+            if pair[0] == "0" {
+                break;
+            }
+            groups.insert(pair[0], pair[1]);
+        }
+        let value = |code| groups[code].parse::<f64>().unwrap();
+        let (x, y, z) = (value("10"), value("20"), value("30"));
+        close([-cos * y + sin * z, x, sin * y + cos * z], f.global_xyz_mm);
+        close([value("210"), value("220"), value("230")], [sin, 0., cos]);
+        assert_eq!(value("40"), f.diameter_mm / 2.);
+    }
     let lines: Vec<_> = dxf.lines().collect();
     let mut centers = Vec::new();
     for i in 0..lines.len() {

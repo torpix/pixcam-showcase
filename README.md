@@ -1,6 +1,30 @@
-# pixCAM v0.3 · SolidCraft Live Bridge
+# pixCAM v0.4 RC1 · Parametric Cycles & SolidCraft Live Bridge
 
 From SolidCraft CAD to Manufacturing Intelligence: a working read-only CAD bridge, geometry registry and Coordinate Inspector.
+
+## New in v0.4 RC1
+
+Open **[dist/index.html](dist/index.html)** and use **Parametric Cycles** at the top. Circular Pattern generates a bolt circle or open arc; Rectangular Pattern generates a rotated row/column grid. Edit parameters to update local 2D and global 3D views immediately, choose one of four 3+2 work frames or enter any valid rigid 4×4, then inspect an individual position.
+
+Export the current pattern as JSON, CSV, local-XY SVG or global-3D DXF. The combined registry export preserves imported SolidCraft geometry alongside generated cycle features and their parameter provenance. Generated positions are marked GENERATED_GEOMETRY; they are not measured CAD holes. Invalid parameters disable exports while clearly marking the retained prior view.
+
+![Circular Pattern](media/07-circular-cycle.png)
+![Rectangular Pattern in a 3+2 work frame](media/08-rectangular-cycle-3plus2.png)
+
+Run the same geometry in Rust:
+
+```sh
+cargo build --release --locked --offline
+./target/release/pixcam-showcase cycle fixtures/cycle-circular.json cycle-output
+./target/release/pixcam-showcase cycle fixtures/cycle-rectangular.json grid-output
+./target/release/pixcam-showcase registry fixtures/bridge-snapshot.json fixtures/cycle-circular.json
+```
+
+Counts are bounded to 1024. Full circles omit the duplicate closing position; open arcs include endpoints. Spacing/sizes must be positive, coordinates and angles may be zero. Numerical duplicate/precision checks are distinct from machining tolerances. See [cycle conventions and limitations](docs/CYCLES.md).
+
+The local release package is **pixcam-public-v0.4-rc1.zip**. Unzip it and open `pixcam-public-v0.4-rc1/dist/index.html`; no server, Rust or CAD installation is needed for the offline demo. Source, startup instructions, screenshots, the new [24-second cycles film](media/pixcam-parametric-cycles-24s.mp4) and prior bridge evidence are included. Build the reviewed archive from a clean release commit using `python3 scripts/package-rc.py`; it excludes Git history and build/test caches and produces a SHA-256 sidecar.
+
+The [short English CAM discussion draft](docs/SOLIDCRAFT_CAM_DRAFT.md) is prepared for review. Neither it nor the package has been published. The existing read-only bridge, Coordinate Inspector, ISO-NC laboratory and their exports remain available below the new panel.
 
 ![Actual SolidCraft connection](media/06-solidcraft-connected.png)
 
@@ -66,7 +90,7 @@ The HTTP adapter binds only 127.0.0.1 and requires exact Host, same Origin and a
 
 ## Verification
 
-29 automated public Rust tests plus one explicitly run real headless integration test; all 37 private engine regression tests remain passing. Chromium covers all three modes, Rust/JavaScript recognition parity, 3+2 alignment, invalid/partial imports, downloads, responsive layout, live GUI refresh, hostile HTTP requests and stale data after disconnect. Rust format/Clippy and independent JSON schema checks pass.
+38 automated public Rust tests plus one explicitly run real headless integration test; all 37 private engine regression tests remain passing. The nine new mathematical/export/registry tests cover circles, open arcs, direction, grid rotation, arbitrary frames, duplicate rejection and tilted DXF OCS reconstruction. Chromium verifies the parametric editor, Rust/JS parity, four exports and combined registry, plus the retained three CAD modes, live GUI reconnect, original Coordinate/NC laboratory and responsive layout. Rust format/Clippy and independent JSON schema/CLI export checks pass.
 
 On the synthetic 42,041-byte snapshot: 1,000 release recognition runs, median 0.211 ms / p95 0.326 ms; ten fresh headless captures, median 976 ms / p95 1,051 ms. These figures describe this small specimen, not arbitrary CAD assemblies.
 

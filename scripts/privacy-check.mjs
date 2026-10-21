@@ -19,9 +19,11 @@ const allowed=new Set([
  'docs/bridge-benchmark.json','media/04-solidcraft-bridge-demo.png','media/05-solidcraft-import-map.png','media/06-solidcraft-connected.png','media/pixcam-solidcraft-bridge-36s.mp4',
  'src/cycles.rs','src/registry.rs','tests/cycles.rs','assets/cycles-panel.html','assets/cycles.js',
  'fixtures/cycle-circular.json','fixtures/cycle-rectangular.json','scripts/cycles-browser-test.mjs','media/07-circular-cycle.png','media/08-rectangular-cycle-3plus2.png',
+ 'schemas/cycle-request.schema.json','scripts/cycle-schema-test.py','scripts/record-cycles.mjs','scripts/package-rc.py',
+ 'docs/CYCLES.md','docs/SOLIDCRAFT_CAM_DRAFT.md','media/pixcam-parametric-cycles-24s.mp4',
 ]);
 const skip=new Set(['.git','target','test-results','node_modules']);
-const banned=new RegExp(['\\b'+('88'+'5')+'\\b','h40'+'[17]','kost'+'ka','hell'+'er','R9010'+'15885','/'+'home/','/'+'mnt/','BACKUP_'+'H','-----BEGIN '+'(?:RSA |EC |OPENSSH )?PRIVATE KEY-----','gh[pousr]_'+'[A-Za-z0-9]{20,}','AKIA'+'[0-9A-Z]{16}'].join('|'),'i');
+const banned=new RegExp(['\\b'+('88'+'5')+'\\b','h40'+'[17]','kost'+'ka','TC_'+'CARR','hell'+'er','R9010'+'15885','/'+'home/','/'+'mnt/','BACKUP_'+'H','-----BEGIN '+'(?:RSA |EC |OPENSSH )?PRIVATE KEY-----','gh[pousr]_'+'[A-Za-z0-9]{20,}','AKIA'+'[0-9A-Z]{16}'].join('|'),'i');
 const fixtureHash=createHash('sha256').update(fs.readFileSync('fixtures/bridge-part.solidcraft')).digest('hex');
 function scan(name,bytes){assert(!banned.test(name),`Blocked filename ${name}`);if(name.endsWith('.png')){assert.equal(bytes.subarray(0,8).toString('hex'),'89504e470d0a1a0a');return;}if(name.endsWith('.mp4')){assert.equal(bytes.subarray(4,8).toString(),'ftyp');return;}if(name.endsWith('.solidcraft')){assert.equal(createHash('sha256').update(bytes).digest('hex'),fixtureHash);return;}assert(!bytes.includes(0),`Unexpected binary ${name}`);const text=bytes.toString().replaceAll('/home/torpix/Aplikacje/solidcraft-cli-0.17.0','<PINNED_CLI>').replaceAll('/home/torpix/Aplikacje/solidcraft-0.17.0.AppImage','<PINNED_GUI>');assert(!banned.test(text),`Privacy marker in ${name}`);}
 function walk(dir=''){return fs.readdirSync(dir||'.',{withFileTypes:true}).flatMap(e=>{if(!dir&&skip.has(e.name))return [];const p=path.posix.join(dir,e.name);assert(!e.isSymbolicLink(),`Symlink: ${p}`);return e.isDirectory()?walk(p):[p];});}
