@@ -1,0 +1,10 @@
+id,kind,face,x_mm,y_mm,z_mm,axis_x,axis_y,axis_z,diameter_mm,depth_mm,tool,source
+"A01","hole","Z_MAX","16","14","20","0","0","-1","6","8","T1 · drill Ø6","Original synthetic definition · src/showcase.rs · millimetres"
+"A02","hole","Z_MAX","43","17","20","0","0","-1","6","8","T1 · drill Ø6","Original synthetic definition · src/showcase.rs · millimetres"
+"A03","hole","Z_MAX","78","13","20","0","0","-1","6","8","T1 · drill Ø6","Original synthetic definition · src/showcase.rs · millimetres"
+"A04","hole","Z_MAX","96","49","20","0","0","-1","10","10","T2 · drill Ø10","Original synthetic definition · src/showcase.rs · millimetres"
+"B01","hole","Y_MIN","24","0","10","0","1","0","6","12","T1 · drill Ø6","Original synthetic definition · src/showcase.rs · millimetres"
+"B02","hole","Y_MIN","89","0","10","0","1","0","6","12","T1 · drill Ø6","Original synthetic definition · src/showcase.rs · millimetres"
+"C01","hole","X_MAX","120","38","10","-1","0","0","10","14","T2 · drill Ø10","Original synthetic definition · src/showcase.rs · millimetres"
+"S01","slot","Z_MAX","32","54","20","0","0","-1","","6","T3 · end mill Ø6 (illustrative)","Original synthetic definition · src/showcase.rs · millimetres"
+"P01","pocket","Z_MAX","73","46","20","0","0","-1","","7","T3 · end mill Ø6 (illustrative)","Original synthetic definition · src/showcase.rs · millimetres"
