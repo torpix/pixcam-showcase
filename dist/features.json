@@ -5245,6 +5245,253 @@
       "Arc chord tolerance: 0.02 mm. Playback follows polyline distance, not feed or real machining time. Tool choices are illustrative, never production approval."
     ]
   },
+  "coordinate_inspector": {
+    "convention": "Right-handed active transforms; millimetres/degrees; column vectors; row-major 4×4 storage; A.compose(B) applies B first; machine_from_cad maps CAD coordinates into Machine coordinates.",
+    "frames": [
+      {
+        "name": "Machine",
+        "meaning": "Fixed global reference used by the viewer."
+      },
+      {
+        "name": "Workpiece",
+        "meaning": "Part-centred frame carried by the selected mathematical setup rotation."
+      },
+      {
+        "name": "Setup",
+        "meaning": "Top-centre inspection datum carried with the workpiece."
+      },
+      {
+        "name": "Tool",
+        "meaning": "Frame at the current tool point; machine-aligned because machine kinematics are intentionally not solved."
+      },
+      {
+        "name": "CAD",
+        "meaning": "Original Aurora coordinates with origin at the stock minimum corner."
+      }
+    ],
+    "setups": [
+      {
+        "id": "S0",
+        "name": "Top / datum",
+        "workpiece_rotation_xyz_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "machine_axis_pose": {
+          "axis_labels": [
+            "A",
+            "B"
+          ],
+          "positions_deg": [
+            0.0,
+            0.0
+          ],
+          "status": "Illustrative physical axis readout; independent from the mathematical workpiece rotation and not a solved machine kinematic pose."
+        },
+        "machine_from_cad": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "id": "S1",
+        "name": "Front face",
+        "workpiece_rotation_xyz_deg": [
+          90.0,
+          0.0,
+          0.0
+        ],
+        "machine_axis_pose": {
+          "axis_labels": [
+            "A",
+            "B"
+          ],
+          "positions_deg": [
+            90.0,
+            0.0
+          ],
+          "status": "Illustrative physical axis readout; independent from the mathematical workpiece rotation and not a solved machine kinematic pose."
+        },
+        "machine_from_cad": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            6.123233995736766e-17,
+            -1.0,
+            48.0
+          ],
+          [
+            0.0,
+            1.0,
+            6.123233995736766e-17,
+            -28.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "id": "S2",
+        "name": "Right face",
+        "workpiece_rotation_xyz_deg": [
+          0.0,
+          -90.0,
+          0.0
+        ],
+        "machine_axis_pose": {
+          "axis_labels": [
+            "A",
+            "B"
+          ],
+          "positions_deg": [
+            0.0,
+            -90.0
+          ],
+          "status": "Illustrative physical axis readout; independent from the mathematical workpiece rotation and not a solved machine kinematic pose."
+        },
+        "machine_from_cad": [
+          [
+            6.123233995736766e-17,
+            0.0,
+            -1.0,
+            70.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            6.123233995736766e-17,
+            -50.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      {
+        "id": "S3",
+        "name": "Compound inspection",
+        "workpiece_rotation_xyz_deg": [
+          30.0,
+          -35.0,
+          20.0
+        ],
+        "machine_axis_pose": {
+          "axis_labels": [
+            "A",
+            "B"
+          ],
+          "positions_deg": [
+            31.0,
+            -47.0
+          ],
+          "status": "Illustrative physical axis readout; independent from the mathematical workpiece rotation and not a solved machine kinematic pose."
+        },
+        "machine_from_cad": [
+          [
+            0.7697511313200572,
+            -0.5656909050739019,
+            -0.29576510231628356,
+            38.26883753676767
+          ],
+          [
+            0.2801664995932355,
+            0.7157103338648683,
+            -0.6397385798157811,
+            0.39040313569869056
+          ],
+          [
+            0.573576436351046,
+            0.40957602214449584,
+            0.7094064799162225,
+            -47.07253982171583
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      }
+    ],
+    "workpiece_origin_cad_mm": [
+      60.0,
+      38.0,
+      10.0
+    ],
+    "setup_origin_cad_mm": [
+      60.0,
+      38.0,
+      20.0
+    ],
+    "tool_axis_machine": [
+      0.0,
+      0.0,
+      -1.0
+    ],
+    "motion_features": {
+      "6": "A01",
+      "9": "A02",
+      "12": "A03",
+      "16": "A04",
+      "21": "S01",
+      "22": "S01",
+      "23": "S01",
+      "24": "S01",
+      "27": "P01",
+      "28": "P01",
+      "29": "P01",
+      "30": "P01",
+      "31": "P01"
+    },
+    "unsupported_codes": [
+      "CYCLE800 and proprietary controller transforms",
+      "G40/G41/G42/G43 compensation",
+      "G81 and other canned cycles",
+      "R-format arcs, macros, subprograms and rotary NC axes"
+    ]
+  },
   "nc_text": "; Original synthetic Aurora plate. Illustrative motion only, not machining output.\nG21 G90 G17 G94\nT1 M6\nG0 Z30\nG0 X16 Y14\nG1 Z12 F180\nG0 Z30\nG0 X43 Y17\nG1 Z12 F180\nG0 Z30\nG0 X78 Y13\nG1 Z12 F180\nG0 Z30\nT2 M6\nG0 X96 Y49\nG1 Z10 F160\nG0 Z30\nT3 M6\nG0 X20 Y50\nG1 Z14 F120\nG1 X44 F400\nG3 X44 Y58 I0 J4\nG1 X20\nG3 X20 Y50 I0 J-4\nG0 Z30\nG0 X63 Y37\nG1 Z13 F120\nG1 X83 F400\nG1 Y55\nG1 X63\nG1 Y37\nG0 Z30\nM30\n",
   "limitations": [
     "Geometric preview only. No verified machining simulation, material removal, collision, gouge, holder or machine model.",

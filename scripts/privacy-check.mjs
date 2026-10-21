@@ -4,12 +4,12 @@ import path from 'node:path';
 import {spawn} from 'node:child_process';
 const allowed=new Set([
  '.gitignore','Cargo.toml','Cargo.lock','LICENSE','README.md',
- 'src/lib.rs','src/main.rs','src/core.rs','src/nc.rs','src/showcase.rs','src/mcp.rs',
- 'assets/index.html','fixtures/aurora.nc',
- 'tests/showcase.rs','tests/mcp.rs','scripts/browser-test.mjs','scripts/record.mjs','scripts/privacy-check.mjs','scripts/schema-test.py',
- 'docs/PRIVACY.md','docs/VERIFICATION.md','docs/SOLIDCRAFT.md','docs/MCP.md','docs/WALKTHROUGH.md',
+ 'src/lib.rs','src/main.rs','src/core.rs','src/coordinates.rs','src/nc.rs','src/showcase.rs','src/solidcraft.rs','src/mcp.rs',
+ 'assets/index.html','assets/brand/concept-a-technical.svg','assets/brand/concept-b-optical.svg','assets/brand/concept-c-industrial.svg','assets/brand/pixcam-mark-dark.svg','assets/brand/pixcam-mark-light.svg','assets/brand/pixcam-horizontal.svg','assets/brand/favicon.svg','fixtures/aurora.nc',
+ 'tests/showcase.rs','tests/solidcraft.rs','tests/mcp.rs','scripts/browser-test.mjs','scripts/record.mjs','scripts/benchmark.mjs','scripts/privacy-check.mjs','scripts/schema-test.py',
+ 'docs/PRIVACY.md','docs/VERIFICATION.md','docs/SOLIDCRAFT.md','docs/MCP.md','docs/WALKTHROUGH.md','docs/BRAND.md','docs/BENCHMARK.md',
  'dist/index.html','dist/features.json','dist/features.csv','dist/feature-map.svg','dist/feature-map.dxf','dist/aurora.nc',
- 'media/01-feature-map.png','media/02-orientation-groups.png','media/03-nc-preview.png','media/pixcam-aurora-72s.mp4',
+ 'media/01-coordinate-inspector.png','media/02-feature-map.png','media/03-nc-inspector.png','media/pixcam-coordinate-inspector-72s.mp4',
 ]);
 const skip=new Set(['.git','target','test-results','node_modules']);
 const banned=new RegExp(['\\b'+('88'+'5')+'\\b','h40'+'[17]','kost'+'ka','hell'+'er','R9010'+'15885','/'+'home/','/'+'mnt/','BACKUP_'+'H','-----BEGIN '+'(?:RSA |EC |OPENSSH )?PRIVATE KEY-----','gh[pousr]_'+'[A-Za-z0-9]{20,}','AKIA'+'[0-9A-Z]{16}'].join('|'),'i');
@@ -23,13 +23,13 @@ let objects=0;
 if(process.argv.includes('--history')){
  assert.equal(fs.existsSync('.git/objects/info/alternates'),false);
  assert.equal((await git('remote')).toString().trim(),'');
- assert.equal((await git('rev-list','--all','--count')).toString().trim(),'1');
- const parents=(await git('rev-list','--parents','HEAD')).toString().trim().split(' ');assert.equal(parents.length,1,'Public commit must have no parent');
+ assert.equal((await git('rev-list','--all','--count')).toString().trim(),'2');
+ assert.equal((await git('rev-list','--max-parents=0','--all','--count')).toString().trim(),'1','Public history must have one root');
+ const head=(await git('rev-list','--parents','-n','1','HEAD')).toString().trim().split(' ');assert.equal(head.length,2,'v0.2 must have exactly the reviewed v0.1 parent');
  const tracked=(await git('ls-files','-z')).toString().split('\0').filter(Boolean);assert.deepEqual(new Set(tracked),allowed);
  const list=(await git('cat-file','--batch-all-objects','--batch-check=%(objectname) %(objecttype)')).toString().trim().split('\n');
  // Match allowed media blobs by exact content; every other object must pass the text scan.
- const media=new Set();for(const f of files.filter(f=>/\.(png|mp4)$/.test(f)))media.add((await git('hash-object',f)).toString().trim());
- for(const row of list){const [oid,type]=row.split(' ');if(media.has(oid)){objects++;continue;}const bytes=await git('cat-file',type,oid);if(type==='tree'){assert(!banned.test(bytes.toString()),'Private tree path');}else scan(`git-${type}`,bytes);objects++;}
+ for(const row of list){const [oid,type]=row.split(' ');const bytes=await git('cat-file',type,oid);if(type==='blob'&&(bytes.subarray(0,8).toString('hex')==='89504e470d0a1a0a'||bytes.subarray(4,8).toString()==='ftyp')){objects++;continue;}if(type==='tree'){assert(!banned.test(bytes.toString()),'Private tree path');}else scan(`git-${type}`,bytes);objects++;}
  assert.equal((await git('status','--porcelain')).toString().trim(),'','Public working tree must be clean');
 }
 console.log(`PASS privacy: ${files.length} allowlisted release files; synthetic contract; ${objects} Git objects checked. Media provenance requires visual review (see docs/PRIVACY.md).`);

@@ -1,4 +1,4 @@
-use pixcam_showcase::{core::*, nc, showcase};
+use pixcam_showcase::{coordinates::*, core::*, nc, showcase};
 fn close(a: Vec3, b: Vec3) {
     assert!(norm(sub(a, b)) < 1e-8, "{a:?} != {b:?}");
 }
@@ -151,6 +151,61 @@ fn reflection_scale_and_nonfinite_are_rejected() {
         assert!(t.validate().is_err());
     }
 }
+
+#[test]
+fn homogeneous_matrix_point_vector_composition_and_inverse() -> pixcam_showcase::Result<()> {
+    let transform = Mat4::translation([11., 23., 7.])?.compose(Mat4::rotation_z(90.)?);
+    close(transform.point([2., 3., 4.]), [8., 25., 11.]);
+    close(transform.vector([2., 3., 4.]), [-3., 2., 4.]);
+    let inverse = transform.inverse()?;
+    close(inverse.point(transform.point([4., 6., 8.])), [4., 6., 8.]);
+    close(
+        transform.compose(inverse).point([3., -2., 9.]),
+        [3., -2., 9.],
+    );
+    Ok(())
+}
+
+#[test]
+fn axis_rotations_are_right_handed_and_order_is_explicit() {
+    close(
+        Mat4::rotation_x(90.).unwrap().vector([0., 1., 0.]),
+        [0., 0., 1.],
+    );
+    close(
+        Mat4::rotation_y(90.).unwrap().vector([0., 0., 1.]),
+        [1., 0., 0.],
+    );
+    close(
+        Mat4::rotation_z(90.).unwrap().vector([1., 0., 0.]),
+        [0., 1., 0.],
+    );
+    let xy = Mat4::rotation_x(90.)
+        .unwrap()
+        .compose(Mat4::rotation_y(90.).unwrap());
+    let yx = Mat4::rotation_y(90.)
+        .unwrap()
+        .compose(Mat4::rotation_x(90.).unwrap());
+    assert_ne!(xy, yx);
+}
+
+#[test]
+fn four_setups_keep_workpiece_math_separate_from_machine_axis_readout() {
+    let setups = demo_setups().unwrap();
+    assert_eq!(setups.len(), 4);
+    for setup in &setups {
+        setup.machine_from_cad.validate().unwrap();
+        close(
+            setup.machine_from_cad.point([60., 38., 10.]),
+            [60., 38., 10.],
+        );
+    }
+    let compound = setups.iter().find(|setup| setup.id == "S3").unwrap();
+    assert_eq!(compound.workpiece_rotation_xyz_deg, [30., -35., 20.]);
+    assert_eq!(compound.machine_axis_pose.positions_deg, [31., -47.]);
+    assert!(compound.machine_axis_pose.status.contains("independent"));
+}
+
 #[test]
 fn build_is_deterministic_and_embedded_scene_is_parseable() {
     let root = std::env::temp_dir().join(format!("pixcam-public-test-{}", std::process::id()));
@@ -168,5 +223,6 @@ fn build_is_deterministic_and_embedded_scene_is_parseable() {
         .unwrap();
     let d: showcase::Demo = serde_json::from_str(json).unwrap();
     assert_eq!(d.features.len(), 9);
+    assert_eq!(d.coordinate_inspector.setups.len(), 4);
     assert!(!text.contains("__DATA__"));
 }

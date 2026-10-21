@@ -1,31 +1,62 @@
-# SolidCraft context and integration boundary
+# SolidCraft v0.17 read-only integration spike
 
-Issue descriptions checked on **2026-10-21**. The following compares stated scope, not independently certified implementations or a claim that a branch has shipped in SolidCraft main.
+Evidence was checked against the public SolidCraft **v0.17.0** tag (`e0cc740`, released 2026-10-20) on 2026-10-21. This document separates shipped interfaces, the tested pixCAM adapter and future proposals.
 
-| Area | This pixCAM showcase | SolidCraft Manufacture RFC |
-|---|---|---|
-| Purpose | Inspect synthetic feature metadata and illustrative NC | Proposes integrated 2.5D manufacturing |
-| Geometry | Nine explicit annotations, three face projections | Author reports operations from sketch profiles and planar faces |
-| Operations | Proposed orientation/tool groups only | Author reports facing, contours, pockets and drilling on a branch |
-| NC | Read a bounded subset; no production generation | Author reports declarative posts and read-back checks |
-| Visualization | Colored paths and nominal outlines | Author reports height-field stock removal and deviation checks |
-| Integration | Independent Rust crate and offline HTML | RFC describes shared engine commands and Manufacture UI |
+## Shipped read surfaces
 
-These Manufacture claims are from [RFC #1153](https://github.com/tangency-labs/solidcraft/issues/1153), whose author describes a working `feat/cam` branch and requests maintainer guidance. The issue remains open in the checked snapshot; it is not evidence that the described features have landed on main. pixCAM can contribute a small inspection/data-exchange experiment without duplicating the proposed full CAM system.
+SolidCraft's [MCP documentation at v0.17.0](https://github.com/tangency-labs/solidcraft/blob/v0.17.0/docs/mcp.md) documents:
 
-The discussion has moved beyond the initial RFC: [this follow-up in #1221](https://github.com/tangency-labs/solidcraft/issues/1221#issuecomment-6210789519) reports active Manufacture work covering mill/turn, part handling, additive workflows, probing/inspection, fabrication and machine/post/template catalogs. It explicitly treats Manufacture as core document/command work alongside the research bank, not something waiting for WASM plugins. Those additional implementation and merge claims were not independently checked against main in this task. The table above deliberately describes the original RFC baseline; it is not an exhaustive inventory of all current Manufacture work.
+- `solidcraft-cli mcp --connect 127.0.0.1:7878` for a bridge to a running app started with `solidcraft --control 7878`;
+- read-only MCP tools `inspect_design`, `measure` and `body_topology`;
+- `inspect_design` output containing timeline definitions, bodies, sketches, selection and measurements;
+- `body_topology` output containing edges and faces, including cylindrical origin, axis and radius;
+- `timeline.inspect` for a feature's stored definition and inputs.
 
-[Plugin proposal #1221](https://github.com/tangency-labs/solidcraft/issues/1221) describes a versioned WIT component interface, shared engine command execution, permissions and runtime limits. Its body presents these as design decisions and milestones, not a stable plugin ABI guarantee. This showcase does not load a SolidCraft plugin or claim compatibility with a released WIT interface.
+The control protocol also exposes document inspection in the active app session. These are supported read paths; pixCAM does not need a private process hook or CAD mutation to obtain a safe snapshot.
 
-[The later panel/overlay discussion](https://github.com/tangency-labs/solidcraft/issues/1221#issuecomment-6278997181) also asks how plugin workspaces and path overlays might be exposed. Consequently, a custom pixCAM panel/viewport is a proposed integration dependency, not an API this demo assumes already exists.
+## Implemented adapter
 
-[Research request #1621](https://github.com/tangency-labs/solidcraft/issues/1621) asks for CAM knowledge and verification evidence, with public sources and no private/company data. This deliverable is a narrow executable demonstration and an explicit limitations record, not a substitute for that research or evidence of real-machine accuracy.
+`src/solidcraft.rs` is a version-pinned, read-only import boundary. It consumes an already captured v0.17.x `inspect_design` result plus optional `body_topology` results and emits:
 
-## Proposed integration (not implemented)
+- timeline feature definitions;
+- evaluated cylindrical body faces with persistent face name, point, unit axis and diameter;
+- explicit `read_only: true` and source provenance;
+- explicit `per_feature_geometry_available: false`.
 
-1. Discover the actual supported SolidCraft engine commands and version at connection time. Obtain a user-selected, public-safe model snapshot through documented read commands; never invent command IDs. Map explicit feature provenance to a versioned pixCAM JSON adapter. No automatic recognition is currently implemented.
-2. Keep analysis read-only. Return inspection results and neutral polylines to an overlay/panel. Existing JSON/SVG/DXF files are the first exchange boundary; a native overlay requires a separately tested host adapter.
-3. When a supported plugin contract is available, place that adapter behind the agreed WIT exports and shared command dispatcher. Request no filesystem/network permissions for in-memory inspection. Respect host memory/fuel limits and surface errors. Do not add a parallel model mutation API.
-4. Route future accepted manufacturing edits through the host's undoable, journaled commands only. This would be a new task: the current demo neither edits SolidCraft documents nor generates operations or NC.
+The CLI command is:
 
-The MCP tools are available now as an independent stdio process; their names are **pixCAM tool names**, not SolidCraft command names. Host ABI compatibility, native rendering, CAD import and an end-to-end SolidCraft plugin remain unverified. No SolidCraft code, third-party postprocessor or commercial reference asset was imported for this showcase.
+```sh
+pixcam-showcase import-solidcraft-snapshot SNAPSHOT.json
+```
+
+Two tests verify the synthetic import and fail-closed behavior for unknown versions, invalid axes and invalid geometry. The adapter never launches SolidCraft, writes a document, sends engine commands, opens a network connection or infers missing associations.
+
+## Precise live-bridge blocker
+
+An end-to-end active-document run is **not verified on this workstation** because no `solidcraft-cli` executable is installed. The public protocol establishes that a bridge is possible, but an honest acceptance run still requires:
+
+1. SolidCraft v0.17.x and `solidcraft-cli` from the same build;
+2. an app launched with the control endpoint;
+3. read-only calls to `inspect_design`, then `body_topology` for selected bodies;
+4. capture into the documented pixCAM snapshot envelope;
+5. comparison of imported topology with the visible source document.
+
+There is also a product-level limit: v0.17 documents timeline definitions and current body topology separately. It does not document a single evaluated geometry object per timeline feature. The adapter therefore refuses to invent a timeline-feature-to-face relation. It can import body geometry now; exact per-feature evaluated geometry remains blocked on a stable host association or explicit provenance supplied by the caller.
+
+## Future WASM/WIT boundary
+
+[Issue #1221](https://github.com/tangency-labs/solidcraft/issues/1221) remains an open design proposal whose description explicitly asks for agreement before implementation. Its proposed `solidcraft:plugin@1.0.0` world and `run(command, args)` host import are not treated as shipped.
+
+If that contract lands, the current adapter can sit behind a thin component:
+
+1. request only read permissions;
+2. call the same documented inspection commands through `run`;
+3. pass their JSON results into the existing versioned importer;
+4. return neutral pixCAM JSON or overlay polylines;
+5. request no filesystem or network capability for in-memory inspection.
+
+No private API, unrestricted WASI access or parallel CAD mutation surface is proposed.
+
+## Avoiding duplicate CAM work
+
+[Manufacture RFC #1153](https://github.com/tangency-labs/solidcraft/issues/1153) describes a branch with setups, operations, posts, read-back checks and height-field simulation; the v0.17 roadmap still treats Manufacture/CAM as deferred and the issue remains open. pixCAM v0.2 stays on the complementary side of that boundary: coordinate explanation, read-only feature/topology exchange and NC inspection. It does not add SolidCraft CAM operations, postprocessors, material removal or manufacturing document edits.

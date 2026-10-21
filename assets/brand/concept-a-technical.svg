@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 180" role="img">
+  <title>pixCAM concept A — Technical / Precision</title>
+  <rect width="520" height="180" rx="24" fill="#071016"/>
+  <g transform="translate(26 20)" fill="none" stroke-linecap="round">
+    <path d="M8 70Q70 8 132 70Q70 126 8 70M158 70Q220 8 282 70Q220 126 158 70" stroke="#55e6d2" stroke-width="8"/>
+    <path d="M32 70a38 38 0 0 1 76 0M182 70a38 38 0 0 1 76 0" stroke="#62a9ff" stroke-width="5"/>
+    <path d="M70 27v86M27 70h86M220 27v86M177 70h86" stroke="#ecf7f7" stroke-width="2" opacity=".55"/>
+    <circle cx="70" cy="70" r="8" fill="#ffc66d" stroke="none"/><circle cx="220" cy="70" r="8" fill="#ffc66d" stroke="none"/>
+    <path d="M70 70l22-22M220 70l22-22" stroke="#ff7088" stroke-width="3"/>
+  </g>
+  <text x="332" y="84" fill="#ecf7f7" font-family="system-ui,sans-serif" font-size="45" font-weight="750" letter-spacing="-2">pix<tspan fill="#55e6d2">CAM</tspan></text>
+  <text x="335" y="110" fill="#8fa7ad" font-family="monospace" font-size="12" letter-spacing="2">PROVE THE COORDINATES</text>
+</svg>

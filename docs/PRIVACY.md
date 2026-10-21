@@ -6,7 +6,7 @@ This public variant was assembled in a new directory, with a new Git repository 
 
 Only directly reviewed generic vector/face/transform code and the bounded NC parser were reused. Unused legacy feature-registry/planner code was removed from the public core. No machine-specific module, prior viewer, source dataset, test fixture, old documentation, archive, screenshot or recording was transferred.
 
-All public geometry is the new Aurora definition in `src/showcase.rs`; the illustrative NC was authored anew in `fixtures/aurora.nc`. JSON/CSV/SVG/DXF and the HTML are produced from those inputs. The three screenshots were captured from that HTML in an isolated browser page. The video records only the same page viewport, never the desktop or existing application windows. Their creation does not require any private documents.
+All public geometry is the new Aurora definition in `src/showcase.rs`; the illustrative NC was authored anew in `fixtures/aurora.nc`. JSON/CSV/SVG/DXF and the HTML are produced from those inputs. The three v0.2 screenshots were captured from that HTML in an isolated browser page. The 72-second v0.2 video records only the same page viewport, never the desktop or existing application windows. The three logo concepts and selected variants are original SVG paths derived from the written brief; no reference photograph was supplied or analysed. Their creation does not require any private documents.
 
 ## Checks and limits of the audit
 

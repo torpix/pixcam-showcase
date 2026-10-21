@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 180" role="img">
+  <title>pixCAM concept C — Minimal / Industrial</title>
+  <rect width="520" height="180" rx="24" fill="#e8eceb"/>
+  <g transform="translate(36 35)" fill="none" stroke="#101719">
+    <path d="M0 55Q55 8 110 55Q55 102 0 55M134 55Q189 8 244 55Q189 102 134 55" stroke-width="9"/>
+    <path d="M26 55h58M55 26v58M160 55h58M189 26v58" stroke-width="2"/>
+    <circle cx="55" cy="55" r="6" fill="#ff5d4f" stroke="none"/><circle cx="189" cy="55" r="6" fill="#ff5d4f" stroke="none"/>
+  </g>
+  <path d="M303 42v96" stroke="#a2aaa8"/>
+  <text x="331" y="81" fill="#101719" font-family="system-ui,sans-serif" font-size="45" font-weight="800" letter-spacing="-2">pixCAM</text>
+  <text x="334" y="108" fill="#505a5a" font-family="monospace" font-size="11" letter-spacing="2">COORDINATE INSPECTOR</text>
+</svg>

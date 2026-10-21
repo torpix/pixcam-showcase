@@ -1,10 +1,10 @@
 [package]
 name = "pixcam-showcase"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 rust-version = "1.95"
 license = "MIT"
-description = "Synthetic feature inspection and bounded ISO-NC preview"
+description = "Synthetic 3+2 coordinate inspection, feature mapping and bounded ISO-NC preview"
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }

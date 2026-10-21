@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 180" role="img">
+  <title>pixCAM concept B — Optical / Surreal</title>
+  <defs><linearGradient id="b" x1="0" x2="1"><stop stop-color="#b69cff"/><stop offset="1" stop-color="#55e6d2"/></linearGradient></defs>
+  <rect width="520" height="180" rx="24" fill="#100d1c"/>
+  <g transform="translate(38 28)" fill="none">
+    <path d="M0 58C34 10 95 4 132 58C92 92 39 99 0 58M156 58C193 4 254 10 288 58C249 99 196 92 156 58" stroke="url(#b)" stroke-width="10"/>
+    <path d="M16 55c31-24 69-24 100 0M172 55c31-24 69-24 100 0" stroke="#ff7088" stroke-width="4" opacity=".8"/>
+    <path d="M30 58a36 36 0 0 1 72 0M186 58a36 36 0 0 1 72 0" stroke="#ffc66d" stroke-width="3" stroke-dasharray="4 7"/>
+    <circle cx="66" cy="58" r="7" fill="#fff"/><circle cx="222" cy="58" r="7" fill="#fff"/>
+    <path d="M66 58c18 16 33 27 52 40M222 58c-18 16-33 27-52 40" stroke="#62a9ff" stroke-width="2"/>
+  </g>
+  <text x="345" y="80" fill="#fff" font-family="system-ui,sans-serif" font-size="43" font-weight="700">pixCAM</text>
+  <text x="348" y="107" fill="#b8aadb" font-family="monospace" font-size="11" letter-spacing="1.5">GEOMETRY, SEEN TWICE</text>
+</svg>

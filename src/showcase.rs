@@ -1,5 +1,6 @@
 use crate::{
     Result,
+    coordinates::{Setup, demo_setups},
     core::{Face, Stock, Vec3},
     nc,
 };
@@ -35,8 +36,27 @@ pub struct Demo {
     pub features: Vec<Feature>,
     pub groups: BTreeMap<String, Vec<String>>,
     pub program: nc::Program,
+    pub coordinate_inspector: CoordinateInspector,
     pub nc_text: String,
     pub limitations: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct FrameDefinition {
+    pub name: String,
+    pub meaning: String,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct CoordinateInspector {
+    pub convention: String,
+    pub frames: Vec<FrameDefinition>,
+    pub setups: Vec<Setup>,
+    pub workpiece_origin_cad_mm: Vec3,
+    pub setup_origin_cad_mm: Vec3,
+    pub tool_axis_machine: Vec3,
+    pub motion_features: BTreeMap<u32, String>,
+    pub unsupported_codes: Vec<String>,
 }
 pub fn demo() -> Result<Demo> {
     let stock = Stock {
@@ -133,6 +153,48 @@ pub fn demo() -> Result<Demo> {
     }
     let nc_text = include_str!("../fixtures/aurora.nc").to_string();
     let mut program = nc::parse(&nc_text, &nc::NcConfig::default())?;
+    let motion_features = BTreeMap::from([
+        (6, "A01".into()),
+        (9, "A02".into()),
+        (12, "A03".into()),
+        (16, "A04".into()),
+        (21, "S01".into()),
+        (22, "S01".into()),
+        (23, "S01".into()),
+        (24, "S01".into()),
+        (27, "P01".into()),
+        (28, "P01".into()),
+        (29, "P01".into()),
+        (30, "P01".into()),
+        (31, "P01".into()),
+    ]);
+    let coordinate_inspector = CoordinateInspector {
+        convention: "Right-handed active transforms; millimetres/degrees; column vectors; row-major 4×4 storage; A.compose(B) applies B first; machine_from_cad maps CAD coordinates into Machine coordinates.".into(),
+        frames: [
+            ("Machine", "Fixed global reference used by the viewer."),
+            ("Workpiece", "Part-centred frame carried by the selected mathematical setup rotation."),
+            ("Setup", "Top-centre inspection datum carried with the workpiece."),
+            ("Tool", "Frame at the current tool point; machine-aligned because machine kinematics are intentionally not solved."),
+            ("CAD", "Original Aurora coordinates with origin at the stock minimum corner."),
+        ]
+        .into_iter()
+        .map(|(name, meaning)| FrameDefinition { name: name.into(), meaning: meaning.into() })
+        .collect(),
+        setups: demo_setups()?,
+        workpiece_origin_cad_mm: [60., 38., 10.],
+        setup_origin_cad_mm: [60., 38., 20.],
+        tool_axis_machine: [0., 0., -1.],
+        motion_features,
+        unsupported_codes: vec![
+            "CYCLE800 and proprietary controller transforms",
+            "G40/G41/G42/G43 compensation",
+            "G81 and other canned cycles",
+            "R-format arcs, macros, subprograms and rotary NC axes",
+        ]
+        .into_iter()
+        .map(str::to_string)
+        .collect(),
+    };
     let limitations=vec![
         "Geometric preview only. No verified machining simulation, material removal, collision, gouge, holder or machine model.".into(),
         "Synthetic annotations, not automatic CAD feature recognition. Slot: 38 × 14 × 6 mm; pocket: 30 × 26 × 7 mm with schematic square corners.".into(),
@@ -150,6 +212,7 @@ pub fn demo() -> Result<Demo> {
         features,
         groups,
         program,
+        coordinate_inspector,
         nc_text,
         limitations,
     })

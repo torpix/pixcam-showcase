@@ -33,6 +33,8 @@ Example tool calls after initialization:
 
 The last example yields `[8,25,11]` mm. Transforms use column vectors, active right-handed rotation followed by translation; vectors receive rotation only. Validation checks finite values, orthonormality and determinant +1, with tolerance 1e-8. It rejects reflection and scale. Round-trip error is diagnostic, not a physical accuracy certificate or machine calibration.
 
+The showcase's Coordinate Inspector additionally uses the full homogeneous 4×4 library in `src/coordinates.rs`. The MCP transform tool intentionally retains its compatible 3×3-plus-translation input schema; both paths use the same right-handed active-transform convention.
+
 `inspect_features` deliberately reads only the built-in synthetic part. None of the tools accepts a file path, follows a source reference, opens a document, writes a file, calls a network service or controls hardware. NC is parsed in memory; unsupported cycles return `supported: false`, never a fabricated expansion. Core parser diagnostics retain the original Polish wording, alongside English support summaries.
 
 Transport messages are limited to 64 KiB. This is a minimal synchronous local implementation: no HTTP, subscriptions, prompts, resources or host integration. Rust subprocess tests cover real stdio; compatibility with an external GUI MCP client has not been tested. Full schemas can be printed using `pixcam-showcase tool-schemas`.

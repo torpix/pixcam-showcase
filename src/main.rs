@@ -13,7 +13,16 @@ fn run() -> Result<()> {
             println!("Open {path}/index.html in your browser. Synthetic data only.");
             Ok(())
         }
-        _ => Err("Usage: pixcam-showcase build [output-directory] | mcp | tool-schemas".into()),
+        Some("import-solidcraft-snapshot") if args.len() == 2 => {
+            let text = std::fs::read_to_string(&args[1]).map_err(|e| e.to_string())?;
+            let imported = pixcam_showcase::solidcraft::import_snapshot(&text)?;
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&imported).map_err(|e| e.to_string())?
+            );
+            Ok(())
+        }
+        _ => Err("Usage: pixcam-showcase build [output-directory] | mcp | tool-schemas | import-solidcraft-snapshot SNAPSHOT.json".into()),
     }
 }
 fn main() {
