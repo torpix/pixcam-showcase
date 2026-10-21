@@ -2,6 +2,8 @@
 
 From SolidCraft CAD to Manufacturing Intelligence: a working read-only CAD bridge, geometry registry and Coordinate Inspector.
 
+**[Launch the interactive demo](https://torpix.github.io/pixcam-showcase/)** | **[GitHub Releases](https://github.com/torpix/pixcam-showcase/releases)**
+
 ## New in v0.4 RC1
 
 Open **[dist/index.html](dist/index.html)** and use **Parametric Cycles** at the top. Circular Pattern generates a bolt circle or open arc; Rectangular Pattern generates a rotated row/column grid. Edit parameters to update local 2D and global 3D views immediately, choose one of four 3+2 work frames or enter any valid rigid 4×4, then inspect an individual position.
@@ -24,7 +26,7 @@ Counts are bounded to 1024. Full circles omit the duplicate closing position; op
 
 The local release package is **pixcam-public-v0.4-rc1.zip**. Unzip it and open `pixcam-public-v0.4-rc1/dist/index.html`; no server, Rust or CAD installation is needed for the offline demo. Source, startup instructions, screenshots, the new [24-second cycles film](media/pixcam-parametric-cycles-24s.mp4) and prior bridge evidence are included. Build the reviewed archive from a clean release commit using `python3 scripts/package-rc.py`; it excludes Git history and build/test caches and produces a SHA-256 sidecar.
 
-The [short English CAM discussion draft](docs/SOLIDCRAFT_CAM_DRAFT.md) is prepared for review. Neither it nor the package has been published. The existing read-only bridge, Coordinate Inspector, ISO-NC laboratory and their exports remain available below the new panel.
+The [short English CAM discussion draft](docs/SOLIDCRAFT_CAM_DRAFT.md) is prepared for review. The source code and browser demo are public. Release assets are provided through GitHub Releases. The existing read-only bridge, Coordinate Inspector, ISO-NC laboratory and their exports remain available below the new panel.
 
 ![Actual SolidCraft connection](media/06-solidcraft-connected.png)
 
@@ -96,4 +98,4 @@ On the synthetic 42,041-byte snapshot: 1,000 release recognition runs, median 0.
 
 See [verification](docs/VERIFICATION.md), [benchmark](docs/BENCHMARK.md), [privacy](docs/PRIVACY.md), [MCP](docs/MCP.md), [Technical / Precision identity](docs/BRAND.md) and the [36-second actual GUI bridge film](media/pixcam-solidcraft-bridge-36s.mp4).
 
-MIT. Local commits only; no push or publication.
+MIT licensed. Experimental manufacturing analysis; not certified for production machining.
