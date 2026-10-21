@@ -1,62 +1,69 @@
-# SolidCraft v0.17 read-only integration spike
+# SolidCraft 0.17.0 integration
 
-Evidence was checked against the public SolidCraft **v0.17.0** tag (`e0cc740`, released 2026-10-20) on 2026-10-21. This document separates shipped interfaces, the tested pixCAM adapter and future proposals.
+Verified on Linux on 2026-10-21 with the installed native GUI and CLI 0.17.0. The previous v0.2 missing-CLI blocker is resolved.
 
-## Shipped read surfaces
+## Contract
 
-SolidCraft's [MCP documentation at v0.17.0](https://github.com/tangency-labs/solidcraft/blob/v0.17.0/docs/mcp.md) documents:
+The pinned [SolidCraft MCP documentation](https://github.com/tangency-labs/solidcraft/blob/v0.17.0/docs/mcp.md) defines newline-delimited JSON-RPC 2.0 over stdio. pixCAM negotiates protocol 2025-03-26, validates server identity/version, sends initialized and calls only four read-only tools. [Control authentication](https://github.com/tangency-labs/solidcraft/blob/v0.17.0/docs/control-protocol.md) remains inside the CLI: it locates the app's token itself.
 
-- `solidcraft-cli mcp --connect 127.0.0.1:7878` for a bridge to a running app started with `solidcraft --control 7878`;
-- read-only MCP tools `inspect_design`, `measure` and `body_topology`;
-- `inspect_design` output containing timeline definitions, bodies, sketches, selection and measurements;
-- `body_topology` output containing edges and faces, including cylindrical origin, axis and radius;
-- `timeline.inspect` for a feature's stored definition and inputs.
+The production executable path is `/home/torpix/Aplikacje/solidcraft-cli-0.17.0`. No PATH fallback or invocation of the older CLI is used. Different installations may change the single CLI constant and rebuild.
 
-The control protocol also exposes document inspection in the active app session. These are supported read paths; pixCAM does not need a private process hook or CAD mutation to obtain a safe snapshot.
+## Offline and isolated headless
 
-## Implemented adapter
-
-`src/solidcraft.rs` is a version-pinned, read-only import boundary. It consumes an already captured v0.17.x `inspect_design` result plus optional `body_topology` results and emits:
-
-- timeline feature definitions;
-- evaluated cylindrical body faces with persistent face name, point, unit axis and diameter;
-- explicit `read_only: true` and source provenance;
-- explicit `per_feature_geometry_available: false`.
-
-The CLI command is:
+Run from this repository:
 
 ```sh
-pixcam-showcase import-solidcraft-snapshot SNAPSHOT.json
+cargo build --release --locked --offline
+/home/torpix/Aplikacje/solidcraft-cli-0.17.0 --version
+/home/torpix/Aplikacje/solidcraft-cli-0.17.0 run fixtures/bridge-part.json --save fixtures/bridge-part.solidcraft --results
+./target/release/pixcam-showcase bridge --in fixtures/bridge-part.solidcraft
 ```
 
-Two tests verify the synthetic import and fail-closed behavior for unknown versions, invalid axes and invalid geometry. The adapter never launches SolidCraft, writes a document, sends engine commands, opens a network connection or infers missing associations.
+Document construction is a separate authorized synthetic workflow. The pixCAM MCP client itself has no execute/batch/save/open tool path. Headless bridge loading is configured once with --in; repeated browser refreshes reuse that read-only session. Restart reloads that same isolated input.
 
-## Precise live-bridge blocker
+To capture/analyze explicitly:
 
-An end-to-end active-document run is **not verified on this workstation** because no `solidcraft-cli` executable is installed. The public protocol establishes that a bridge is possible, but an honest acceptance run still requires:
+```sh
+./target/release/pixcam-showcase capture-solidcraft --in fixtures/bridge-part.solidcraft
+./target/release/pixcam-showcase analyze-solidcraft fixtures/bridge-snapshot.json
+./target/release/pixcam-showcase benchmark-solidcraft fixtures/bridge-snapshot.json
+```
 
-1. SolidCraft v0.17.x and `solidcraft-cli` from the same build;
-2. an app launched with the control endpoint;
-3. read-only calls to `inspect_design`, then `body_topology` for selected bodies;
-4. capture into the documented pixCAM snapshot envelope;
-5. comparison of imported topology with the visible source document.
+Capture prints sanitized snapshot JSON on stdout and generic errors on stderr. To regenerate the included synthetic capture and report after a debug build, run `node scripts/capture.mjs`. Do not save real user-document captures into the public repository.
 
-There is also a product-level limit: v0.17 documents timeline definitions and current body topology separately. It does not document a single evaluated geometry object per timeline feature. The adapter therefore refuses to invent a timeline-feature-to-face relation. It can import body geometry now; exact per-feature evaluated geometry remains blocked on a stable host association or explicit provenance supplied by the caller.
+## Active GUI
 
-## Future WASM/WIT boundary
+Start the app with an explicitly chosen unused localhost control port and our synthetic document:
 
-[Issue #1221](https://github.com/tangency-labs/solidcraft/issues/1221) remains an open design proposal whose description explicitly asks for agreement before implementation. Its proposed `solidcraft:plugin@1.0.0` world and `run(command, args)` host import are not treated as shipped.
+```sh
+/home/torpix/Aplikacje/solidcraft-0.17.0.AppImage --control PORT fixtures/bridge-part.solidcraft
+./target/release/pixcam-showcase bridge --connect 127.0.0.1:PORT
+```
 
-If that contract lands, the current adapter can sit behind a thin component:
+PORT is a placeholder for your selected port, not a fixed default. The adapter's independent HTTP port is allocated dynamically. Open exactly the localhost URL it prints. Choose CONNECTED, then Refresh analysis. Browsers never access the SolidCraft control port.
 
-1. request only read permissions;
-2. call the same documented inspection commands through `run`;
-3. pass their JSON results into the existing versioned importer;
-4. return neutral pixCAM JSON or overlay polylines;
-5. request no filesystem or network capability for in-memory inspection.
+For an already active user document, launch only the adapter with its known control port. No CAD mutation, document opening, screenshot tool, undo/redo or save is exposed. Reading is explicit; nothing is automatically exported to disk.
 
-No private API, unrestricted WASI access or parallel CAD mutation surface is proposed.
+`--timeout-ms N` configures each MCP request deadline (default 15000). A failed capture is discarded; the bridge closes the child and performs at most one fresh initialized retry. A changed revision/body/timeline during capture rejects the result. The browser retains prior data with an explicit stale/disconnected status on failure.
 
-## Avoiding duplicate CAM work
+## Acceptance evidence
 
-[Manufacture RFC #1153](https://github.com/tangency-labs/solidcraft/issues/1153) describes a branch with setups, operations, posts, read-back checks and height-field simulation; the v0.17 roadmap still treats Manufacture/CAM as deferred and the issue remains open. pixCAM v0.2 stays on the complementary side of that boundary: coordinate explanation, read-only feature/topology exchange and NC inspection. It does not add SolidCraft CAM operations, postprocessors, material removal or manufacturing document edits.
+`python3 scripts/live-gui-test.py` opens our specimen in a separate temporary app profile and discovers a free port dynamically. Set PIXCAM_PLAYWRIGHT to an installed Playwright module path when it is not resolvable as a package. `--record` also records the browser-only film.
+
+The actual GUI test passed: document bridge-part, body BridgePlate, bbox 100/70/30 mm, ten cylinder patches merged to five segments, expected axes and diameters, named-boundary spans 30/12/5/25/15 mm, coaxial Ø12/Ø6, local-frame transform checks and Chromium CONNECTED refresh. Actual app exit produces HTTP 502/stale; restart recovers through the same adapter. An unused/wrong app port fails closed. The specimen's SHA-256 stays unchanged. Temporary control credentials are neither read by the test nor recorded.
+
+The headless integration test is deliberately opt-in on machines without SolidCraft:
+
+```sh
+cargo test --locked --offline actual_headless_mcp_roundtrip_and_restart -- --ignored
+```
+
+## Schema and interpretation
+
+Snapshots contain schema_version 1, solidcraft_version 0.17.0, inspect_design and body_topology, with optional measurements. The exact contract is in [snapshot schema](../schemas/solidcraft-snapshot.schema.json); the report contract is in [report schema](../schemas/feature-report.schema.json). Missing topology produces a partial-data warning; missing edges leave spans null.
+
+Persistent edge tokens identify face adjacency. Axial range is the projection of those edges' endpoints/midpoints onto the cylinder axis. This measures available boundary extent; it does not certify a closed circumference or full drilling depth. Merge tolerance is 0.00001 mm for line/radius tests and 0.00001 for angular cross-product tests. Cylinder axes must already be unit length to 1e-8; invalid geometry fails closed.
+
+SolidCraft's persistent bore/cbore naming supplies a hole hypothesis, never verified manufacturing intent. Coaxial segments with different diameters and touching axial intervals supply a possible counterbore hypothesis. Tool-direction setup candidates are sign-ambiguous geometric alignments; stock side and physical access remain unknown.
+
+The separate legacy `import-solidcraft-snapshot` command retains its v0.2 timeline/cylinder import format. New recognition uses `analyze-solidcraft`. Neither path invents a timeline-feature-to-evaluated-face association. No plugin ABI, CAM operation tree, postprocessor or production NC is implemented.

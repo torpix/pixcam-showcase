@@ -1,0 +1,30 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://pixcam.local/schemas/feature-report.schema.json",
+  "title":"pixCAM 0.3 geometry evidence and manufacturing hypotheses",
+  "type":"object","required":["schema_version","product","document","units","read_only","bodies","features","surfaces","groups","coaxial_groups","potential_operations","limitations","snapshot"],
+  "properties":{
+    "schema_version":{"const":1},"product":{"const":"pixCAM 0.3.0"},"document":{"type":"string"},"units":{"const":"mm"},"read_only":{"const":true},
+    "bodies":{"type":"array","items":{"$ref":"solidcraft-snapshot.schema.json#/$defs/body"}},
+    "snapshot":{"$ref":"solidcraft-snapshot.schema.json"},
+    "features":{"type":"array","items":{"$ref":"#/$defs/feature"}},
+    "surfaces":{"type":"array","items":{"type":"object","required":["body","face_index","persistent_name","area_mm2","centroid_mm","normal","kind","evidence_level"],"properties":{"evidence_level":{"const":"VERIFIED_GEOMETRY"},"kind":{"enum":["planar","cylindrical","unknown"]},"centroid_mm":{"$ref":"solidcraft-snapshot.schema.json#/$defs/vec3"},"area_mm2":{"type":"number","minimum":0}}}},
+    "groups":{"type":"object","additionalProperties":{"$ref":"#/$defs/ids"}},
+    "coaxial_groups":{"type":"array","items":{"$ref":"#/$defs/ids"}},
+    "potential_operations":{"type":"array","items":{"type":"object","required":["level","kind","features","requires_review"],"properties":{"level":{"const":"INFERRED_FEATURE"},"kind":{"enum":["stepped_diameters_possible_counterbore","axis_aligned_setup_candidates"]},"features":{"$ref":"#/$defs/ids"},"requires_review":{"type":"string","minLength":1}}}},
+    "limitations":{"type":"array","minItems":1,"items":{"type":"string"}}
+  },
+  "$defs":{
+    "ids":{"type":"array","items":{"type":"string"}},
+    "feature":{"type":"object","required":["id","body","face_indices","face_names","evidence_level","diameter_mm","axis","axis_origin_mm","axial_range_mm","boundary_span_mm","cad_from_local","inferred_feature","inference_level","unknown","evidence"],"properties":{
+      "id":{"type":"string","pattern":"^CY[0-9]+$"},"body":{"type":"string","minLength":1},
+      "face_indices":{"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"integer","minimum":0}},"face_names":{"$ref":"#/$defs/ids"},
+      "evidence_level":{"const":"VERIFIED_GEOMETRY"},"diameter_mm":{"type":"number","exclusiveMinimum":0},
+      "axis":{"$ref":"solidcraft-snapshot.schema.json#/$defs/vec3"},"axis_origin_mm":{"$ref":"solidcraft-snapshot.schema.json#/$defs/vec3"},
+      "axial_range_mm":{"oneOf":[{"type":"null"},{"type":"array","minItems":2,"maxItems":2,"items":{"type":"number"}}]},
+      "boundary_span_mm":{"type":["number","null"],"minimum":0},
+      "cad_from_local":{"type":"array","minItems":4,"maxItems":4,"items":{"type":"array","minItems":4,"maxItems":4,"items":{"type":"number"}}},
+      "inference_level":{"enum":["INFERRED_FEATURE","UNKNOWN"]},"inferred_feature":{"type":"string"},"unknown":{"type":"array","minItems":1,"items":{"type":"string"}},"evidence":{"type":"string","minLength":1}
+    }}
+  }
+}

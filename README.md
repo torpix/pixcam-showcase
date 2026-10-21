@@ -1,72 +1,75 @@
-# pixCAM · Coordinate Inspector showcase v0.2
+# pixCAM v0.3 · SolidCraft Live Bridge
 
-**See the setup. Prove the coordinates.** A standalone, offline demonstration of 3+2 coordinate inspection, synthetic feature mapping and bounded ISO-NC explanation, prepared as a complementary experiment for the SolidCraft community.
+From SolidCraft CAD to Manufacturing Intelligence: a working read-only CAD bridge, geometry registry and Coordinate Inspector.
 
-![pixCAM Coordinate Inspector](media/01-coordinate-inspector.png)
+![Actual SolidCraft connection](media/06-solidcraft-connected.png)
 
-## Run the showcase
+## Try it
 
-Open **[dist/index.html](dist/index.html)** directly in a browser. It is self-contained: no server, account, upload, CDN, JavaScript package installation or Rust runtime is needed. The exports are embedded in the HTML.
+Open [dist/index.html](dist/index.html) directly. DEMO runs entirely offline, showing actual geometry captured from our original synthetic SolidCraft specimen. Rust and SolidCraft are not needed to view it.
 
-To rebuild with Rust 1.95+:
+- DEMO: embedded synthetic CAD capture; five cylindrical segments and 24 surfaces.
+- IMPORT: choose a SolidCraft snapshot JSON or a pixCAM report containing its source snapshot. Offline recognition stays in the browser. Nothing is uploaded.
+- CONNECTED: open the URL printed by the local Rust adapter, then choose CONNECTED and Refresh analysis. It reads either an isolated headless document or an explicitly configured active app.
 
-```sh
-cargo run --locked --release -- build dist
-```
+## Linux / Precision 7510
 
-On the target workstation (7510), `cargo run --locked --release --offline -- build dist` works after dependencies have been cached.
-
-## Coordinate Inspector
-
-- A right-handed homogeneous 4×4 library with row-major storage, column vectors and active rotations. `A.compose(B)` applies `B` first; `machine_from_cad` maps CAD points into Machine coordinates.
-- Point, vector and tool-axis transforms; X/Y/Z rotations; translation; composition; validation and rigid inverse.
-- Five explicit frames: Machine, Workpiece, Setup, Tool and CAD.
-- Four animated synthetic 3+2 setups: datum, front, right and compound inspection.
-- Live matrix plus local/global coordinates, visible XYZ axes, origins and work plane.
-- Any feature can be inspected in any frame. The selected hole's axis and position update with the setup.
-- Mathematical workpiece orientation and illustrative physical A/B readouts are separate fields. The demo does **not** solve machine kinematics or claim CYCLE800 support.
-
-![Synthetic feature map](media/02-feature-map.png)
-
-## ISO-NC Inspector
-
-The bounded Rust parser supplies 27 deterministic motions. Every G0/G1/G2/G3 ledger row is clickable and reports start, end, polyline length, direction, tool axis, coordinate system and a feature link when known. G2/G3 are displayed from the parser's interpolated trajectory with a maximum 0.02 mm chord error.
-
-Unsupported or ambiguous input fails closed. The viewer lists unsupported controller transforms, compensation, canned cycles, R arcs, macros, subprograms and rotary NC axes. It performs no Boolean stock removal, collision checking, postprocessing or cycle-time simulation.
-
-![ISO-NC move inspector](media/03-nc-inspector.png)
-
-Supported subset: G0/G1/G2/G3; G17/G18/G19; G20/G21; G90/G91; G94; F/S/T; M6, M2/M30; M3/M4/M5/M8/M9 as metadata. Arc centres are incremental IJK. G54–G59 require explicit transforms through the Rust API.
-
-## Original synthetic public data
-
-Aurora is a new 120 × 76 × 20 mm inspection plate defined in `src/showcase.rs`; `fixtures/aurora.nc` was written for this demo. It has seven holes, one capsule slot and one schematic pocket. No customer models, production programs, machine definitions, manufacturer documents or reference photographs are included.
-
-Deterministic JSON, CSV, SVG and DXF exports retain all nine annotations. PNG captures the current browser viewport. The exported face map uses unmirrored Z_MAX→XY, Y_MIN→XZ and X_MAX→YZ projections.
-
-## SolidCraft v0.17 integration boundary
-
-SolidCraft v0.17.0 documents read-only `inspect_design`, `measure` and `body_topology` MCP tools, including a bridge to a running app with `solidcraft-cli mcp --connect`. `src/solidcraft.rs` imports a captured, version-pinned read-only snapshot into a neutral pixCAM map of timeline definitions and cylindrical body faces:
+Use Rust 1.95+ and matching SolidCraft 0.17.0. All CAD invocations use the pinned absolute CLI path in `src/bridge.rs`; the older CLI installation is untouched.
 
 ```sh
-pixcam-showcase import-solidcraft-snapshot snapshot.json
+cargo build --release --locked --offline
+./target/release/pixcam-showcase bridge --in fixtures/bridge-part.solidcraft
 ```
 
-The adapter deliberately leaves `timeline_feature_id` empty: v0.17 exposes timeline definitions and evaluated body topology separately, but does not document a one-call feature-to-evaluated-face association. A live bridge was not run here because `solidcraft-cli` is not installed on this workstation. The proposed WIT plugin ABI in issue #1221 is future-only; the showcase does not claim it exists. See [the evidence and blocker report](docs/SOLIDCRAFT.md).
+Open the printed localhost URL. The adapter chooses an available HTTP port. For the active app, supply its actual control port:
 
-## Branding
+```sh
+./target/release/pixcam-showcase bridge --connect 127.0.0.1:PORT
+```
 
-Three original vector directions are included under `assets/brand`: Technical / Precision, Optical / Surreal and Minimal / Industrial. Concept A is selected for the engineering UI, with light and dark marks, a horizontal wordmark and SVG favicon. The artwork interprets two painted closed eyes through toolpath arcs, centre targets and coordinate symmetry; it does not reproduce a photograph. See [BRAND.md](docs/BRAND.md).
+Replace PORT with the app's configured port; there is no hardcoded control port. See [integration and startup](docs/SOLIDCRAFT.md) for app launch, capture and verification commands.
 
-## Verification and review
+## What works
 
-- `cargo test --locked --offline`: 20 public tests.
-- `cargo clippy --locked --offline --all-targets -- -D warnings` and `cargo fmt --check`.
-- Browser automation: setups, frames, matrices, feature coordinates, all 27 motions, arcs, exports, responsive layout, no network requests or JavaScript errors.
-- MCP schemas and six real stdio results.
-- Privacy allowlist, synthetic contract and complete local Git-object scan before release commit.
-- 100-run build benchmark: median 6.427 ms, p95 8.327 ms; six files, 439,956 bytes on this workstation.
+The Rust client implements MCP JSON-RPC 2.0 initialization, initialized notification, bounded stdio messages, deadlines, clean process shutdown and one fresh-session retry. Its allowlist contains exactly `list_commands`, `inspect_design`, `measure` and `body_topology`.
 
-See [verification](docs/VERIFICATION.md), [benchmark](docs/BENCHMARK.md), [privacy boundary](docs/PRIVACY.md), [MCP tools](docs/MCP.md) and the [72-second walkthrough](docs/WALKTHROUGH.md).
+Recognition records CAD cylinder radii/diameters, axis lines, adjacent boundary spans and local right-handed 4×4 frames. It merges compatible patches and groups diameters, parallel axes and coaxial surfaces. Adjacent coaxial diameters become a possible counterbore hypothesis. Planar normals support surface maps.
 
-License: MIT. No push or publication is performed by this repository workflow.
+The viewer displays CAD boundary samples plus analytic cylinder overlays, selected local XYZ, CAD/Machine positions and axes, four animated geometric 3+2 orientations, groups, setup candidates and uncertainty. Export the current document as report JSON, registry CSV, source snapshot JSON, projected SVG map or PNG view.
+
+The v0.2 Coordinate/ISO-NC laboratory remains available below the bridge, with its original independent synthetic Aurora dataset, five named frames, 27 clickable G0–G3 moves and original exports. It does not attach that illustrative NC to imported CAD.
+
+## Real integration evidence
+
+Both the isolated headless run and an actual SolidCraft 0.17.0 GUI connection passed on Linux. The GUI acceptance harness opens only our synthetic specimen in a temporary profile, calls pixCAM through MCP `--connect`, refreshes the browser, verifies geometry, checks file hash stability and terminates its own app process. No active user document is opened or edited by the harness.
+
+| Segment | CAD axis line | Diameter | Available boundary span |
+| --- | --- | ---: | ---: |
+| CY01 | Z at X20 Y20 | 6 mm | 30 mm |
+| CY02 | Z at X45 Y20 | 10 mm | 12 mm |
+| CY03 | Z at X75 Y20 | 12 mm | 5 mm |
+| CY04 | Z at X75 Y20 | 6 mm | 25 mm |
+| CY05 | X at Y50 Z15 | 8 mm | 15 mm |
+
+The specimen is a 100 × 70 × 30 mm block with a through hole, blind holes, stepped bore and 30 × 18 × 6 mm rectangular pocket. CAD construction lives in [fixtures/bridge-part.json](fixtures/bridge-part.json); the native document, captured snapshot and report are included.
+
+![Offline demonstration](media/04-solidcraft-bridge-demo.png)
+![Imported surface map](media/05-solidcraft-import-map.png)
+
+## Evidence and limits
+
+`VERIFIED_GEOMETRY` means a CAD surface parameter or a named-boundary projection. `INFERRED_FEATURE` means a manufacturing hypothesis. `UNKNOWN` remains explicit. A cylindrical patch is not automatically a complete hole. Boundary span is not a certified drilling depth; blind/through termination and inward material side require review.
+
+No thread, tolerance, tool, cutting condition, access clearance, collision proof or production NC is invented. The bridge does not run Boolean analysis, solve machine kinematics or implement Siemens CYCLE800. The model view is a wireframe with cylinder overlays, not a tessellated CAD renderer. Timeline definitions are not automatically mapped to evaluated faces.
+
+The HTTP adapter binds only 127.0.0.1 and requires exact Host, same Origin and a per-process page session header. It exposes two bounded read/analyze endpoints, no generic CAD command proxy, CORS or filesystem server. SolidCraft control credentials remain with SolidCraft/CLI and are never sent to the browser.
+
+## Verification
+
+29 automated public Rust tests plus one explicitly run real headless integration test; all 37 private engine regression tests remain passing. Chromium covers all three modes, Rust/JavaScript recognition parity, 3+2 alignment, invalid/partial imports, downloads, responsive layout, live GUI refresh, hostile HTTP requests and stale data after disconnect. Rust format/Clippy and independent JSON schema checks pass.
+
+On the synthetic 42,041-byte snapshot: 1,000 release recognition runs, median 0.211 ms / p95 0.326 ms; ten fresh headless captures, median 976 ms / p95 1,051 ms. These figures describe this small specimen, not arbitrary CAD assemblies.
+
+See [verification](docs/VERIFICATION.md), [benchmark](docs/BENCHMARK.md), [privacy](docs/PRIVACY.md), [MCP](docs/MCP.md), [Technical / Precision identity](docs/BRAND.md) and the [36-second actual GUI bridge film](media/pixcam-solidcraft-bridge-36s.mp4).
+
+MIT. Local commits only; no push or publication.

@@ -1,0 +1,9 @@
+[
+  {"command":"solid.box","params":{"length":100,"width":70,"height":30,"body_name":"BridgePlate","name":"Synthetic stock"}},
+  {"command":"document.metadata.set","params":{"values":{"project":"pixCAM bridge synthetic specimen","part_number":"BRIDGE-100-70-30","license":"MIT"}}},
+  {"command":"solid.hole","params":{"position":[20,20,30],"diameter":6}},
+  {"command":"solid.hole","params":{"position":[45,20,30],"diameter":10,"depth":12}},
+  {"command":"solid.hole","params":{"position":[75,20,30],"diameter":6,"type":"counterbore","cb_diameter":12,"cb_depth":5}},
+  {"command":"solid.hole","params":{"position":[0,50,15],"diameter":8,"depth":15}},
+  {"command":"solid.box","params":{"corner":[35,42,24],"length":30,"width":18,"height":7,"operation":"cut","targets":["BridgePlate"],"name":"Synthetic pocket"}}
+]

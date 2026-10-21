@@ -344,7 +344,7 @@ pub fn dxf(d: &Demo) -> String {
     s.push_str("0\nENDSEC\n0\nEOF\n");
     s
 }
-pub fn build(path: &std::path::Path) -> Result<()> {
+pub fn render_html() -> Result<String> {
     let d = demo()?;
     let json = serde_json::to_string_pretty(&d).map_err(|e| e.to_string())?;
     let embedded = json
@@ -354,8 +354,30 @@ pub fn build(path: &std::path::Path) -> Result<()> {
     let exports = serde_json::json!({"features.json":json,"features.csv":csv(&d),"feature-map.svg":svg(&d),"feature-map.dxf":dxf(&d)}).to_string()
         .replace('<', "\\u003c").replace('>', "\\u003e").replace('&', "\\u0026");
     let html = include_str!("../assets/index.html")
+        .replace(
+            "__BRIDGE_PANEL__",
+            include_str!("../assets/bridge-panel.html"),
+        )
+        .replace("__BRIDGE_STYLE__", include_str!("../assets/bridge.css"))
+        .replace("__BRIDGE_SCRIPT__", include_str!("../assets/bridge.js"))
+        .replace(
+            "__BRIDGE_DEMO__",
+            &serde_json::to_string(&crate::recognition::analyze(include_str!(
+                "../fixtures/bridge-snapshot.json"
+            ))?)
+            .map_err(|e| e.to_string())?
+            .replace('<', "\\u003c")
+            .replace('>', "\\u003e")
+            .replace('&', "\\u0026"),
+        )
         .replace("__DATA__", &embedded)
         .replace("__EXPORTS__", &exports);
+    Ok(html)
+}
+pub fn build(path: &std::path::Path) -> Result<()> {
+    let d = demo()?;
+    let json = serde_json::to_string_pretty(&d).map_err(|e| e.to_string())?;
+    let html = render_html()?;
     std::fs::create_dir_all(path).map_err(|e| e.to_string())?;
     for (name, content) in [
         ("index.html", html),

@@ -1,5 +1,11 @@
 # Read-only AI tools
 
+There are two separate MCP roles in v0.3. The SolidCraft **client** in
+`src/bridge.rs` imports real CAD using exactly four allowed read-only tools;
+its bounded localhost HTTP adapter powers CONNECTED. See [SolidCraft integration](SOLIDCRAFT.md).
+The compatible pixCAM **server** described below exposes the original synthetic
+Aurora/NC/transform tools. It does not implicitly expose connected user geometry.
+
 Build with `cargo build --locked --release`, then configure an MCP client to launch:
 
 ```json

@@ -1,0 +1,34 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://pixcam.local/schemas/solidcraft-snapshot.schema.json",
+  "title":"pixCAM SolidCraft 0.17.0 geometry snapshot",
+  "type":"object",
+  "required":["schema_version","solidcraft_version","inspect_design","body_topology"],
+  "properties":{
+    "schema_version":{"const":1},"solidcraft_version":{"const":"0.17.0"},
+    "inspect_design":{"type":"object","required":["bodies"],"properties":{
+      "name":{"type":"string"},"units":{"const":"mm"},"timeline":{"type":"array"},
+      "bodies":{"type":"array","maxItems":256,"items":{"$ref":"#/$defs/body"}}
+    }},
+    "body_topology":{"type":"array","maxItems":256,"items":{"type":"object","required":["body","faces"],"properties":{
+      "body":{"type":"string","minLength":1},
+      "faces":{"type":"array","maxItems":100000,"items":{"$ref":"#/$defs/face"}},
+      "edges":{"type":"array","maxItems":200000,"items":{"$ref":"#/$defs/edge"}}
+    }}},"measurements":{"type":"array"}
+  },
+  "$defs":{
+    "vec3":{"type":"array","minItems":3,"maxItems":3,"items":{"type":"number"}},
+    "body":{"type":"object","required":["name","bbox"],"properties":{"name":{"type":"string","minLength":1},"bbox":{"type":"object","required":["min","max"],"properties":{"min":{"$ref":"#/$defs/vec3"},"max":{"$ref":"#/$defs/vec3"}}}}},
+    "cylinder":{"type":"object","required":["origin","axis","radius"],"properties":{"origin":{"$ref":"#/$defs/vec3"},"axis":{"$ref":"#/$defs/vec3"},"radius":{"type":"number","exclusiveMinimum":0}}},
+    "face":{"type":"object","required":["index","name","area","centroid","point"],"properties":{
+      "index":{"type":"integer","minimum":0},"name":{"type":"string","minLength":1},"area":{"type":"number","minimum":0},
+      "centroid":{"$ref":"#/$defs/vec3"},"point":{"$ref":"#/$defs/vec3"},
+      "plane_normal":{"oneOf":[{"type":"null"},{"$ref":"#/$defs/vec3"}]},
+      "cylinder":{"oneOf":[{"type":"null"},{"$ref":"#/$defs/cylinder"}]}
+    }},
+    "edge":{"type":"object","required":["index","name","start","mid","end","length"],"properties":{
+      "index":{"type":"integer","minimum":0},"name":{"type":"string"},"length":{"type":"number","minimum":0},
+      "start":{"$ref":"#/$defs/vec3"},"mid":{"$ref":"#/$defs/vec3"},"end":{"$ref":"#/$defs/vec3"}
+    }}
+  }
+}

@@ -15,10 +15,11 @@ page.on('request',request=>{if(/^https?:/.test(request.url()))network.push(reque
 
 try{
   await page.goto(pathToFileURL(path.resolve('dist/index.html')).href);
+  await page.click('#legacy-toggle');
   assert.equal(await page.locator('.setup').count(),4);
   assert.equal(await page.locator('.feature').count(),9);
   assert.equal(await page.locator('.motion').count(),27);
-  assert.equal(await page.locator('.matrix tr').count(),4);
+  assert.equal(await page.locator('#matrix-wrap .matrix tr').count(),4);
   assert.match(await page.locator('#details').textContent(),/Global Machine XYZ/);
   await page.screenshot({path:'media/01-coordinate-inspector.png',fullPage:true});
 

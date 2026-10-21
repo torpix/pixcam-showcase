@@ -1,0 +1,2662 @@
+{
+  "schema_version": 1,
+  "product": "pixCAM 0.3.0",
+  "document": "bridge-part",
+  "units": "mm",
+  "read_only": true,
+  "bodies": [
+    {
+      "name": "BridgePlate",
+      "bbox": {
+        "min": [
+          -3.108624468950765e-15,
+          0.0,
+          -6.661338147750937e-15
+        ],
+        "max": [
+          100.0,
+          70.0,
+          30.00000000000001
+        ]
+      }
+    }
+  ],
+  "features": [
+    {
+      "id": "CY01",
+      "body": "BridgePlate",
+      "face_indices": [
+        4,
+        5
+      ],
+      "face_names": [
+        "F2:bore:side:1",
+        "F2:bore:side:0"
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "diameter_mm": 6.000000000000011,
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "axis_origin_mm": [
+        19.99999999999999,
+        19.999999999999993,
+        0.0
+      ],
+      "axial_range_mm": [
+        0.0,
+        29.99999999999999
+      ],
+      "boundary_span_mm": 29.99999999999999,
+      "cad_from_local": [
+        [
+          0.0,
+          1.0,
+          0.0,
+          19.99999999999999
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0,
+          19.999999999999993
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "inferred_feature": "cylindrical_hole_candidate",
+      "inference_level": "INFERRED_FEATURE",
+      "unknown": [
+        "Closed 360-degree hole / inward material side",
+        "Blind versus through termination (not certified by topology alone)",
+        "Threads, tolerances, process and tool"
+      ],
+      "evidence": "Radius/axis from CAD cylinder; span is projection of named adjacent edge endpoints/midpoints, not an invented hole depth. Hole hypothesis uses CAD persistent naming only."
+    },
+    {
+      "id": "CY02",
+      "body": "BridgePlate",
+      "face_indices": [
+        6,
+        7
+      ],
+      "face_names": [
+        "F3:bore:side:1",
+        "F3:bore:side:0"
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "diameter_mm": 10.000000000000053,
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "axis_origin_mm": [
+        44.999999999999964,
+        20.00000000000003,
+        0.0
+      ],
+      "axial_range_mm": [
+        17.999999999999996,
+        29.99999999999999
+      ],
+      "boundary_span_mm": 11.999999999999993,
+      "cad_from_local": [
+        [
+          0.0,
+          1.0,
+          0.0,
+          44.999999999999964
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0,
+          20.00000000000003
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          18.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "inferred_feature": "cylindrical_hole_candidate",
+      "inference_level": "INFERRED_FEATURE",
+      "unknown": [
+        "Closed 360-degree hole / inward material side",
+        "Blind versus through termination (not certified by topology alone)",
+        "Threads, tolerances, process and tool"
+      ],
+      "evidence": "Radius/axis from CAD cylinder; span is projection of named adjacent edge endpoints/midpoints, not an invented hole depth. Hole hypothesis uses CAD persistent naming only."
+    },
+    {
+      "id": "CY03",
+      "body": "BridgePlate",
+      "face_indices": [
+        8,
+        9
+      ],
+      "face_names": [
+        "F4:cbore:side:1",
+        "F4:cbore:side:0"
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "diameter_mm": 11.999999999999984,
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "axis_origin_mm": [
+        74.99999999999997,
+        20.00000000000001,
+        0.0
+      ],
+      "axial_range_mm": [
+        24.99999999999999,
+        29.99999999999999
+      ],
+      "boundary_span_mm": 5.0,
+      "cad_from_local": [
+        [
+          0.0,
+          1.0,
+          0.0,
+          74.99999999999997
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0,
+          20.00000000000001
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          24.99999999999999
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "inferred_feature": "cylindrical_hole_candidate",
+      "inference_level": "INFERRED_FEATURE",
+      "unknown": [
+        "Closed 360-degree hole / inward material side",
+        "Blind versus through termination (not certified by topology alone)",
+        "Threads, tolerances, process and tool"
+      ],
+      "evidence": "Radius/axis from CAD cylinder; span is projection of named adjacent edge endpoints/midpoints, not an invented hole depth. Hole hypothesis uses CAD persistent naming only."
+    },
+    {
+      "id": "CY04",
+      "body": "BridgePlate",
+      "face_indices": [
+        10,
+        11
+      ],
+      "face_names": [
+        "F4:bore:side:1",
+        "F4:bore:side:0"
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "diameter_mm": 6.000000000000015,
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "axis_origin_mm": [
+        74.99999999999994,
+        19.999999999999993,
+        0.0
+      ],
+      "axial_range_mm": [
+        0.0,
+        24.99999999999999
+      ],
+      "boundary_span_mm": 24.99999999999999,
+      "cad_from_local": [
+        [
+          0.0,
+          1.0,
+          0.0,
+          74.99999999999994
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0,
+          19.999999999999993
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "inferred_feature": "cylindrical_hole_candidate",
+      "inference_level": "INFERRED_FEATURE",
+      "unknown": [
+        "Closed 360-degree hole / inward material side",
+        "Blind versus through termination (not certified by topology alone)",
+        "Threads, tolerances, process and tool"
+      ],
+      "evidence": "Radius/axis from CAD cylinder; span is projection of named adjacent edge endpoints/midpoints, not an invented hole depth. Hole hypothesis uses CAD persistent naming only."
+    },
+    {
+      "id": "CY05",
+      "body": "BridgePlate",
+      "face_indices": [
+        17,
+        18
+      ],
+      "face_names": [
+        "F5:bore:side:0",
+        "F5:bore:side:1"
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "diameter_mm": 8.00000000000001,
+      "axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "axis_origin_mm": [
+        0.0,
+        50.0,
+        15.000000000000012
+      ],
+      "axial_range_mm": [
+        -3.552713678800501e-15,
+        15.0
+      ],
+      "boundary_span_mm": 15.000000000000004,
+      "cad_from_local": [
+        [
+          0.0,
+          0.0,
+          1.0,
+          -3.552713678800501e-15
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          50.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0,
+          15.000000000000012
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "inferred_feature": "cylindrical_hole_candidate",
+      "inference_level": "INFERRED_FEATURE",
+      "unknown": [
+        "Closed 360-degree hole / inward material side",
+        "Blind versus through termination (not certified by topology alone)",
+        "Threads, tolerances, process and tool"
+      ],
+      "evidence": "Radius/axis from CAD cylinder; span is projection of named adjacent edge endpoints/midpoints, not an invented hole depth. Hole hypothesis uses CAD persistent naming only."
+    }
+  ],
+  "surfaces": [
+    {
+      "area_mm2": 2051.164235294109,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        0.0,
+        34.64286795860433,
+        14.999999999999991
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 0,
+      "kind": "planar",
+      "normal": [
+        -1.0,
+        -0.0,
+        0.0
+      ],
+      "persistent_name": "F1:-x"
+    },
+    {
+      "area_mm2": 2999.999999999999,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        49.99999999999999,
+        70.0,
+        14.999999999999996
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 1,
+      "kind": "planar",
+      "normal": [
+        0.0,
+        1.0,
+        -0.0
+      ],
+      "persistent_name": "F1:+y"
+    },
+    {
+      "area_mm2": 2099.999999999999,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        100.0,
+        35.0,
+        14.999999999999991
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 2,
+      "kind": "planar",
+      "normal": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "persistent_name": "F1:+x"
+    },
+    {
+      "area_mm2": 2999.999999999999,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        49.99999999999999,
+        0.0,
+        14.999999999999996
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 3,
+      "kind": "planar",
+      "normal": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "persistent_name": "F1:-y"
+    },
+    {
+      "area_mm2": 279.24978436260864,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        21.076756866052236,
+        18.469197501026947,
+        15.0
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 4,
+      "kind": "cylindrical",
+      "normal": null,
+      "persistent_name": "F2:bore:side:1"
+    },
+    {
+      "area_mm2": 279.2497843626077,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        18.92324313394774,
+        21.53080249897305,
+        14.999999999999996
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 5,
+      "kind": "cylindrical",
+      "normal": null,
+      "persistent_name": "F2:bore:side:0"
+    },
+    {
+      "area_mm2": 187.1454905597698,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        46.79863622529289,
+        17.4429168596653,
+        23.999999999999993
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 6,
+      "kind": "cylindrical",
+      "normal": null,
+      "persistent_name": "F3:bore:side:1"
+    },
+    {
+      "area_mm2": 187.14549055977025,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        43.2013637747071,
+        22.557083140334687,
+        23.999999999999996
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 7,
+      "kind": "cylindrical",
+      "normal": null,
+      "persistent_name": "F3:bore:side:0"
+    },
+    {
+      "area_mm2": 93.57274528469708,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        77.15836347149546,
+        16.931500229971995,
+        27.499999999999982
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 8,
+      "kind": "cylindrical",
+      "normal": null,
+      "persistent_name": "F4:cbore:side:1"
+    },
+    {
+      "area_mm2": 93.57274528469722,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        72.84163652850454,
+        23.068499770028012,
+        27.5
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 9,
+      "kind": "cylindrical",
+      "normal": null,
+      "persistent_name": "F4:cbore:side:0"
+    },
+    {
+      "area_mm2": 232.70815363597583,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        76.76141429062427,
+        19.367401125248566,
+        12.500000000000004
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 10,
+      "kind": "cylindrical",
+      "normal": null,
+      "persistent_name": "F4:bore:side:1"
+    },
+    {
+      "area_mm2": 232.70815363597856,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        73.23858570937568,
+        20.632598874751416,
+        12.499999999999998
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 11,
+      "kind": "cylindrical",
+      "normal": null,
+      "persistent_name": "F4:bore:side:0"
+    },
+    {
+      "area_mm2": 6246.919529411764,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        49.750491611715034,
+        34.12856361994964,
+        29.999999999999982
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 12,
+      "kind": "planar",
+      "normal": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "persistent_name": "F1:+z"
+    },
+    {
+      "area_mm2": 82.98635294117634,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        74.99999999999996,
+        19.999999999999996,
+        24.99999999999998
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 13,
+      "kind": "planar",
+      "normal": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "persistent_name": "F4:cbore:base"
+    },
+    {
+      "area_mm2": 76.30588235294132,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        44.99999999999998,
+        19.999999999999996,
+        17.999999999999996
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 14,
+      "kind": "planar",
+      "normal": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "persistent_name": "F3:bore:base"
+    },
+    {
+      "area_mm2": 6946.211764705881,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        50.01935883799547,
+        35.11615302797293,
+        0.0
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 15,
+      "kind": "planar",
+      "normal": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "persistent_name": "F1:-z"
+    },
+    {
+      "area_mm2": 48.835764705882255,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        15.000000000000002,
+        50.0,
+        14.999999999999996
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 16,
+      "kind": "planar",
+      "normal": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "persistent_name": "F5:bore:base"
+    },
+    {
+      "area_mm2": 186.84229149768248,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        7.4999999999845715,
+        51.45505316987975,
+        17.031411660309253
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 17,
+      "kind": "cylindrical",
+      "normal": null,
+      "persistent_name": "F5:bore:side:0"
+    },
+    {
+      "area_mm2": 186.84229149768376,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        7.499999999984553,
+        48.54494683012021,
+        12.968588339690768
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 18,
+      "kind": "cylindrical",
+      "normal": null,
+      "persistent_name": "F5:bore:side:1"
+    },
+    {
+      "area_mm2": 540.0,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        50.0,
+        51.0,
+        24.0
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 19,
+      "kind": "planar",
+      "normal": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "persistent_name": "F6:-z"
+    },
+    {
+      "area_mm2": 179.99999999999946,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        50.00000000000001,
+        42.0,
+        26.999999999999996
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 20,
+      "kind": "planar",
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "persistent_name": "F6:-y"
+    },
+    {
+      "area_mm2": 107.99999999999967,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        65.0,
+        50.99999999999999,
+        26.999999999999993
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 21,
+      "kind": "planar",
+      "normal": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "persistent_name": "F6:+x"
+    },
+    {
+      "area_mm2": 179.99999999999946,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        50.00000000000001,
+        60.0,
+        26.999999999999996
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 22,
+      "kind": "planar",
+      "normal": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "persistent_name": "F6:+y"
+    },
+    {
+      "area_mm2": 107.99999999999967,
+      "body": "BridgePlate",
+      "centroid_mm": [
+        34.99999999999999,
+        50.99999999999999,
+        26.999999999999993
+      ],
+      "evidence_level": "VERIFIED_GEOMETRY",
+      "face_index": 23,
+      "kind": "planar",
+      "normal": [
+        1.0,
+        0.0,
+        -0.0
+      ],
+      "persistent_name": "F6:-x"
+    }
+  ],
+  "groups": {
+    "diameter / 10.00000 mm": [
+      "CY02"
+    ],
+    "diameter / 12.00000 mm": [
+      "CY03"
+    ],
+    "diameter / 6.00000 mm": [
+      "CY01",
+      "CY04"
+    ],
+    "diameter / 8.00000 mm": [
+      "CY05"
+    ],
+    "parallel axis / 0.00000,0.00000,1.00000": [
+      "CY01",
+      "CY02",
+      "CY03",
+      "CY04"
+    ],
+    "parallel axis / 1.00000,0.00000,0.00000": [
+      "CY05"
+    ]
+  },
+  "coaxial_groups": [
+    [
+      "CY03",
+      "CY04"
+    ]
+  ],
+  "potential_operations": [
+    {
+      "features": [
+        "CY03",
+        "CY04"
+      ],
+      "kind": "stepped_diameters_possible_counterbore",
+      "level": "INFERRED_FEATURE",
+      "requires_review": "Material side, complete circumference, access and tooling"
+    },
+    {
+      "features": [
+        "CY01",
+        "CY02",
+        "CY03",
+        "CY04"
+      ],
+      "kind": "axis_aligned_setup_candidates",
+      "level": "INFERRED_FEATURE",
+      "requires_review": "Direction sign, access, collisions, material and operation must be verified",
+      "tool_direction": "+Z"
+    },
+    {
+      "features": [
+        "CY01",
+        "CY02",
+        "CY03",
+        "CY04"
+      ],
+      "kind": "axis_aligned_setup_candidates",
+      "level": "INFERRED_FEATURE",
+      "requires_review": "Direction sign, access, collisions, material and operation must be verified",
+      "tool_direction": "-Z"
+    },
+    {
+      "features": [
+        "CY05"
+      ],
+      "kind": "axis_aligned_setup_candidates",
+      "level": "INFERRED_FEATURE",
+      "requires_review": "Direction sign, access, collisions, material and operation must be verified",
+      "tool_direction": "+X"
+    },
+    {
+      "features": [
+        "CY05"
+      ],
+      "kind": "axis_aligned_setup_candidates",
+      "level": "INFERRED_FEATURE",
+      "requires_review": "Direction sign, access, collisions, material and operation must be verified",
+      "tool_direction": "-X"
+    }
+  ],
+  "limitations": [
+    "Planning aid only; no NC generation, certified machining, access/collision proof or CYCLE800.",
+    "Cylindrical patches are not automatically complete holes. Opposite axis signs describe the same geometric line, not a verified tool direction.",
+    "Boundary spans require exact persistent edge adjacency; missing spans stay null. Edge wireframe samples are not a CAD tessellation.",
+    "Timeline and evaluated faces are not automatically associated; no feature-to-face mapping is invented."
+  ],
+  "snapshot": {
+    "schema_version": 1,
+    "solidcraft_version": "0.17.0",
+    "inspect_design": {
+      "name": "bridge-part",
+      "units": "mm",
+      "revision": 1,
+      "bodies": [
+        {
+          "name": "BridgePlate",
+          "bbox": {
+            "min": [
+              -3.108624468950765e-15,
+              0.0,
+              -6.661338147750937e-15
+            ],
+            "max": [
+              100.0,
+              70.0,
+              30.00000000000001
+            ]
+          }
+        }
+      ],
+      "timeline": [
+        {
+          "boolean_diagnostics": {
+            "events": [],
+            "truncated": false
+          },
+          "error": null,
+          "id": 1,
+          "ms": 1.587018,
+          "name": "Synthetic stock",
+          "rolled_back": false,
+          "suppressed": false,
+          "type": "BoxFeature",
+          "warning": null
+        },
+        {
+          "boolean_diagnostics": {
+            "events": [],
+            "truncated": false
+          },
+          "error": null,
+          "id": 2,
+          "ms": 19.384158,
+          "name": "Hole1",
+          "rolled_back": false,
+          "suppressed": false,
+          "type": "HoleFeature",
+          "warning": null
+        },
+        {
+          "boolean_diagnostics": {
+            "events": [],
+            "truncated": false
+          },
+          "error": null,
+          "id": 3,
+          "ms": 26.45517,
+          "name": "Hole2",
+          "rolled_back": false,
+          "suppressed": false,
+          "type": "HoleFeature",
+          "warning": null
+        },
+        {
+          "boolean_diagnostics": {
+            "events": [],
+            "truncated": false
+          },
+          "error": null,
+          "id": 4,
+          "ms": 53.833275,
+          "name": "Hole3",
+          "rolled_back": false,
+          "suppressed": false,
+          "type": "HoleFeature",
+          "warning": null
+        },
+        {
+          "boolean_diagnostics": {
+            "events": [],
+            "truncated": false
+          },
+          "error": null,
+          "id": 5,
+          "ms": 176.917862,
+          "name": "Hole4",
+          "rolled_back": false,
+          "suppressed": false,
+          "type": "HoleFeature",
+          "warning": null
+        },
+        {
+          "boolean_diagnostics": {
+            "events": [],
+            "truncated": false
+          },
+          "error": null,
+          "id": 6,
+          "ms": 106.819914,
+          "name": "Synthetic pocket",
+          "rolled_back": false,
+          "suppressed": false,
+          "type": "BoxFeature",
+          "warning": null
+        }
+      ]
+    },
+    "body_topology": [
+      {
+        "body": "BridgePlate",
+        "faces": [
+          {
+            "index": 0,
+            "name": "F1:-x",
+            "area": 2051.164235294109,
+            "centroid": [
+              0.0,
+              34.64286795860433,
+              14.999999999999991
+            ],
+            "point": [
+              0.0,
+              10.886160976184142,
+              14.96218346739698
+            ],
+            "plane_normal": [
+              -1.0,
+              -0.0,
+              0.0
+            ],
+            "cylinder": null
+          },
+          {
+            "index": 1,
+            "name": "F1:+y",
+            "area": 2999.999999999999,
+            "centroid": [
+              49.99999999999999,
+              70.0,
+              14.999999999999996
+            ],
+            "point": [
+              87.20153254455276,
+              70.0,
+              17.201532544552744
+            ],
+            "plane_normal": [
+              0.0,
+              1.0,
+              -0.0
+            ],
+            "cylinder": null
+          },
+          {
+            "index": 2,
+            "name": "F1:+x",
+            "area": 2099.999999999999,
+            "centroid": [
+              100.0,
+              35.0,
+              14.999999999999991
+            ],
+            "point": [
+              100.0,
+              11.921134470680457,
+              18.078865529319536
+            ],
+            "plane_normal": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "cylinder": null
+          },
+          {
+            "index": 3,
+            "name": "F1:-y",
+            "area": 2999.999999999999,
+            "centroid": [
+              49.99999999999999,
+              0.0,
+              14.999999999999996
+            ],
+            "point": [
+              12.798467455447245,
+              0.0,
+              17.201532544552744
+            ],
+            "plane_normal": [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            "cylinder": null
+          },
+          {
+            "index": 4,
+            "name": "F2:bore:side:1",
+            "area": 279.24978436260864,
+            "centroid": [
+              21.076756866052236,
+              18.469197501026947,
+              15.0
+            ],
+            "point": [
+              22.057096440859148,
+              17.816343838191404,
+              27.817895041684572
+            ],
+            "plane_normal": null,
+            "cylinder": {
+              "origin": [
+                19.99999999999999,
+                19.999999999999993,
+                29.99999999999999
+              ],
+              "axis": [
+                0.0,
+                -0.0,
+                1.0
+              ],
+              "radius": 3.0000000000000053
+            }
+          },
+          {
+            "index": 5,
+            "name": "F2:bore:side:0",
+            "area": 279.2497843626077,
+            "centroid": [
+              18.92324313394774,
+              21.53080249897305,
+              14.999999999999996
+            ],
+            "point": [
+              17.94290355914085,
+              22.18365616180857,
+              27.817895041684572
+            ],
+            "plane_normal": null,
+            "cylinder": {
+              "origin": [
+                20.0,
+                19.999999999999982,
+                29.99999999999999
+              ],
+              "axis": [
+                -0.0,
+                0.0,
+                1.0
+              ],
+              "radius": 2.9999999999999987
+            }
+          },
+          {
+            "index": 6,
+            "name": "F3:bore:side:1",
+            "area": 187.1454905597698,
+            "centroid": [
+              46.79863622529289,
+              17.4429168596653,
+              23.999999999999993
+            ],
+            "point": [
+              48.43113209547449,
+              16.363060002776418,
+              26.526226351589813
+            ],
+            "plane_normal": null,
+            "cylinder": {
+              "origin": [
+                44.999999999999964,
+                20.00000000000003,
+                29.99999999999999
+              ],
+              "axis": [
+                0.0,
+                -0.0,
+                1.0
+              ],
+              "radius": 5.000000000000027
+            }
+          },
+          {
+            "index": 7,
+            "name": "F3:bore:side:0",
+            "area": 187.14549055977025,
+            "centroid": [
+              43.2013637747071,
+              22.557083140334687,
+              23.999999999999996
+            ],
+            "point": [
+              42.73685439712656,
+              24.458494362471995,
+              21.47377364841018
+            ],
+            "plane_normal": null,
+            "cylinder": {
+              "origin": [
+                45.00000000000001,
+                19.99999999999998,
+                29.99999999999999
+              ],
+              "axis": [
+                -0.0,
+                0.0,
+                1.0
+              ],
+              "radius": 5.000000000000019
+            }
+          },
+          {
+            "index": 8,
+            "name": "F4:cbore:side:1",
+            "area": 93.57274528469708,
+            "centroid": [
+              77.15836347149546,
+              16.931500229971995,
+              27.499999999999982
+            ],
+            "point": [
+              77.71965340551577,
+              14.651777364968236,
+              29.364209916630724
+            ],
+            "plane_normal": null,
+            "cylinder": {
+              "origin": [
+                74.99999999999997,
+                20.00000000000001,
+                29.99999999999999
+              ],
+              "axis": [
+                0.0,
+                -0.0,
+                1.0
+              ],
+              "radius": 5.999999999999992
+            }
+          },
+          {
+            "index": 9,
+            "name": "F4:cbore:side:0",
+            "area": 93.57274528469722,
+            "centroid": [
+              72.84163652850454,
+              23.068499770028012,
+              27.5
+            ],
+            "point": [
+              72.28034659448421,
+              25.34822263503176,
+              29.36420991663073
+            ],
+            "plane_normal": null,
+            "cylinder": {
+              "origin": [
+                75.0,
+                20.000000000000007,
+                29.99999999999999
+              ],
+              "axis": [
+                -0.0,
+                0.0,
+                1.0
+              ],
+              "radius": 5.99999999999997
+            }
+          },
+          {
+            "index": 10,
+            "name": "F4:bore:side:1",
+            "area": 232.70815363597583,
+            "centroid": [
+              76.76141429062427,
+              19.367401125248566,
+              12.500000000000004
+            ],
+            "point": [
+              77.65071719317808,
+              18.595116246164867,
+              2.1821049583154277
+            ],
+            "plane_normal": null,
+            "cylinder": {
+              "origin": [
+                74.99999999999994,
+                19.999999999999993,
+                24.99999999999999
+              ],
+              "axis": [
+                0.0,
+                -0.0,
+                1.0
+              ],
+              "radius": 3.0000000000000075
+            }
+          },
+          {
+            "index": 11,
+            "name": "F4:bore:side:0",
+            "area": 232.70815363597856,
+            "centroid": [
+              73.23858570937568,
+              20.632598874751416,
+              12.499999999999998
+            ],
+            "point": [
+              72.06113848251437,
+              20.602571971669995,
+              22.81789504168458
+            ],
+            "plane_normal": null,
+            "cylinder": {
+              "origin": [
+                74.99999999999997,
+                19.999999999999996,
+                24.99999999999999
+              ],
+              "axis": [
+                -0.0,
+                0.0,
+                1.0
+              ],
+              "radius": 3.000000000000005
+            }
+          },
+          {
+            "index": 12,
+            "name": "F1:+z",
+            "area": 6246.919529411764,
+            "centroid": [
+              49.750491611715034,
+              34.12856361994964,
+              29.999999999999982
+            ],
+            "point": [
+              21.77437471697099,
+              40.6788618616396,
+              29.999999999999982
+            ],
+            "plane_normal": [
+              0.0,
+              0.0,
+              1.0
+            ],
+            "cylinder": null
+          },
+          {
+            "index": 13,
+            "name": "F4:cbore:base",
+            "area": 82.98635294117634,
+            "centroid": [
+              74.99999999999996,
+              19.999999999999996,
+              24.99999999999998
+            ],
+            "point": [
+              71.38779244631418,
+              23.978533547294017,
+              24.99999999999999
+            ],
+            "plane_normal": [
+              0.0,
+              0.0,
+              1.0
+            ],
+            "cylinder": null
+          },
+          {
+            "index": 14,
+            "name": "F3:bore:base",
+            "area": 76.30588235294132,
+            "centroid": [
+              44.99999999999998,
+              19.999999999999996,
+              17.999999999999996
+            ],
+            "point": [
+              43.772407157031346,
+              24.24992278922601,
+              18.0
+            ],
+            "plane_normal": [
+              0.0,
+              0.0,
+              1.0
+            ],
+            "cylinder": null
+          },
+          {
+            "index": 15,
+            "name": "F1:-z",
+            "area": 6946.211764705881,
+            "centroid": [
+              50.01935883799547,
+              35.11615302797293,
+              0.0
+            ],
+            "point": [
+              67.03113545473015,
+              50.49187689855376,
+              0.0
+            ],
+            "plane_normal": [
+              0.0,
+              0.0,
+              -1.0
+            ],
+            "cylinder": null
+          },
+          {
+            "index": 16,
+            "name": "F5:bore:base",
+            "area": 48.835764705882255,
+            "centroid": [
+              15.000000000000002,
+              50.0,
+              14.999999999999996
+            ],
+            "point": [
+              14.999999999999998,
+              50.9820742743749,
+              18.39993823138081
+            ],
+            "plane_normal": [
+              -1.0,
+              0.0,
+              0.0
+            ],
+            "cylinder": null
+          },
+          {
+            "index": 17,
+            "name": "F5:bore:side:0",
+            "area": 186.84229149768248,
+            "centroid": [
+              7.4999999999845715,
+              51.45505316987975,
+              17.031411660309253
+            ],
+            "point": [
+              12.416216837064011,
+              52.74839478982391,
+              17.90625636846939
+            ],
+            "plane_normal": null,
+            "cylinder": {
+              "origin": [
+                -3.108624468950439e-15,
+                50.0,
+                15.000000000000012
+              ],
+              "axis": [
+                1.0,
+                0.0,
+                -0.0
+              ],
+              "radius": 4.000000000000005
+            }
+          },
+          {
+            "index": 18,
+            "name": "F5:bore:side:1",
+            "area": 186.84229149768376,
+            "centroid": [
+              7.499999999984553,
+              48.54494683012021,
+              12.968588339690768
+            ],
+            "point": [
+              12.416216837064017,
+              47.251605210176,
+              12.093743631530725
+            ],
+            "plane_normal": null,
+            "cylinder": {
+              "origin": [
+                -1.1102230246251563e-15,
+                50.00000000000001,
+                15.000000000000009
+              ],
+              "axis": [
+                1.0,
+                -0.0,
+                0.0
+              ],
+              "radius": 4.000000000000002
+            }
+          },
+          {
+            "index": 19,
+            "name": "F6:-z",
+            "area": 540.0,
+            "centroid": [
+              50.0,
+              51.0,
+              24.0
+            ],
+            "point": [
+              58.492855684535904,
+              48.5071443154641,
+              24.0
+            ],
+            "plane_normal": [
+              0.0,
+              0.0,
+              1.0
+            ],
+            "cylinder": null
+          },
+          {
+            "index": 20,
+            "name": "F6:-y",
+            "area": 179.99999999999946,
+            "centroid": [
+              50.00000000000001,
+              42.0,
+              26.999999999999996
+            ],
+            "point": [
+              37.70294145922164,
+              42.0,
+              27.29705854077834
+            ],
+            "plane_normal": [
+              0.0,
+              1.0,
+              0.0
+            ],
+            "cylinder": null
+          },
+          {
+            "index": 21,
+            "name": "F6:+x",
+            "area": 107.99999999999967,
+            "centroid": [
+              65.0,
+              50.99999999999999,
+              26.999999999999993
+            ],
+            "point": [
+              65.0,
+              44.51316701949485,
+              26.51316701949485
+            ],
+            "plane_normal": [
+              -1.0,
+              0.0,
+              0.0
+            ],
+            "cylinder": null
+          },
+          {
+            "index": 22,
+            "name": "F6:+y",
+            "area": 179.99999999999946,
+            "centroid": [
+              50.00000000000001,
+              60.0,
+              26.999999999999996
+            ],
+            "point": [
+              62.297058540778366,
+              60.0,
+              26.70294145922164
+            ],
+            "plane_normal": [
+              0.0,
+              -1.0,
+              0.0
+            ],
+            "cylinder": null
+          },
+          {
+            "index": 23,
+            "name": "F6:-x",
+            "area": 107.99999999999967,
+            "centroid": [
+              34.99999999999999,
+              50.99999999999999,
+              26.999999999999993
+            ],
+            "point": [
+              35.0,
+              57.486832980505135,
+              27.486832980505124
+            ],
+            "plane_normal": [
+              1.0,
+              0.0,
+              -0.0
+            ],
+            "cylinder": null
+          }
+        ],
+        "edges": [
+          {
+            "index": 0,
+            "name": "F1:+z|F1:-x",
+            "start": [
+              0.0,
+              0.0,
+              29.99999999999999
+            ],
+            "mid": [
+              0.0,
+              35.0,
+              29.99999999999999
+            ],
+            "end": [
+              0.0,
+              70.0,
+              29.99999999999999
+            ],
+            "length": 70.0
+          },
+          {
+            "index": 1,
+            "name": "F1:+y|F1:-x",
+            "start": [
+              0.0,
+              70.0,
+              29.99999999999999
+            ],
+            "mid": [
+              0.0,
+              70.0,
+              14.999999999999996
+            ],
+            "end": [
+              0.0,
+              70.0,
+              0.0
+            ],
+            "length": 29.99999999999999
+          },
+          {
+            "index": 2,
+            "name": "F1:-x|F1:-z",
+            "start": [
+              0.0,
+              70.0,
+              0.0
+            ],
+            "mid": [
+              0.0,
+              35.0,
+              0.0
+            ],
+            "end": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "length": 70.0
+          },
+          {
+            "index": 3,
+            "name": "F1:-x|F1:-y",
+            "start": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "mid": [
+              0.0,
+              0.0,
+              14.999999999999996
+            ],
+            "end": [
+              0.0,
+              0.0,
+              29.99999999999999
+            ],
+            "length": 29.99999999999999
+          },
+          {
+            "index": 4,
+            "name": "F1:-x|F5:bore:side:1",
+            "start": [
+              2.220446049250312e-16,
+              46.72829708148102,
+              17.30129529025598
+            ],
+            "mid": [
+              -1.0987195780670008e-16,
+              47.69870470974375,
+              11.728297081480507
+            ],
+            "end": [
+              -1.7763568394002493e-15,
+              53.27170291851906,
+              12.698704709744147
+            ],
+            "length": 12.476366036677751
+          },
+          {
+            "index": 5,
+            "name": "F1:-x|F5:bore:side:0",
+            "start": [
+              -1.7763568394002505e-15,
+              53.27170291851907,
+              12.698704709744147
+            ],
+            "mid": [
+              1.201328591214317e-16,
+              52.30129529025623,
+              18.271702918519484
+            ],
+            "end": [
+              2.220446049250325e-16,
+              46.72829708148102,
+              17.30129529025598
+            ],
+            "length": 12.476366036677428
+          },
+          {
+            "index": 6,
+            "name": "F1:+y|F1:+z",
+            "start": [
+              0.0,
+              70.0,
+              29.99999999999999
+            ],
+            "mid": [
+              50.0,
+              70.0,
+              29.99999999999999
+            ],
+            "end": [
+              100.0,
+              70.0,
+              29.99999999999999
+            ],
+            "length": 100.0
+          },
+          {
+            "index": 7,
+            "name": "F1:+x|F1:+y",
+            "start": [
+              100.0,
+              70.0,
+              29.99999999999999
+            ],
+            "mid": [
+              100.0,
+              70.0,
+              14.999999999999996
+            ],
+            "end": [
+              100.0,
+              70.0,
+              0.0
+            ],
+            "length": 29.99999999999999
+          },
+          {
+            "index": 8,
+            "name": "F1:+y|F1:-z",
+            "start": [
+              100.0,
+              70.0,
+              0.0
+            ],
+            "mid": [
+              50.0,
+              70.0,
+              0.0
+            ],
+            "end": [
+              0.0,
+              70.0,
+              0.0
+            ],
+            "length": 100.0
+          },
+          {
+            "index": 9,
+            "name": "F1:+x|F1:+z",
+            "start": [
+              100.0,
+              70.0,
+              29.99999999999999
+            ],
+            "mid": [
+              100.0,
+              35.0,
+              29.99999999999999
+            ],
+            "end": [
+              100.0,
+              0.0,
+              29.99999999999999
+            ],
+            "length": 70.0
+          },
+          {
+            "index": 10,
+            "name": "F1:+x|F1:-y",
+            "start": [
+              100.0,
+              0.0,
+              29.99999999999999
+            ],
+            "mid": [
+              100.0,
+              0.0,
+              14.999999999999996
+            ],
+            "end": [
+              100.0,
+              0.0,
+              0.0
+            ],
+            "length": 29.99999999999999
+          },
+          {
+            "index": 11,
+            "name": "F1:+x|F1:-z",
+            "start": [
+              100.0,
+              0.0,
+              0.0
+            ],
+            "mid": [
+              100.0,
+              35.0,
+              0.0
+            ],
+            "end": [
+              100.0,
+              70.0,
+              0.0
+            ],
+            "length": 70.0
+          },
+          {
+            "index": 12,
+            "name": "F1:+z|F1:-y",
+            "start": [
+              100.0,
+              0.0,
+              29.99999999999999
+            ],
+            "mid": [
+              50.0,
+              0.0,
+              29.99999999999999
+            ],
+            "end": [
+              0.0,
+              0.0,
+              29.99999999999999
+            ],
+            "length": 100.0
+          },
+          {
+            "index": 13,
+            "name": "F1:-y|F1:-z",
+            "start": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "mid": [
+              50.0,
+              0.0,
+              0.0
+            ],
+            "end": [
+              100.0,
+              0.0,
+              0.0
+            ],
+            "length": 100.0
+          },
+          {
+            "index": 14,
+            "name": "F1:+z|F2:bore:side:1",
+            "start": [
+              17.546222811110685,
+              18.27402853230809,
+              29.99999999999999
+            ],
+            "mid": [
+              21.72597146769189,
+              17.546222811110695,
+              29.99999999999999
+            ],
+            "end": [
+              22.45377718888929,
+              21.7259714676919,
+              29.99999999999999
+            ],
+            "length": 9.308326186461937
+          },
+          {
+            "index": 15,
+            "name": "F2:bore:side:0|F2:bore:side:1~2",
+            "start": [
+              22.45377718888929,
+              21.725971467691902,
+              29.99999999999999
+            ],
+            "mid": [
+              22.45377718888929,
+              21.725971467691902,
+              14.999999999999996
+            ],
+            "end": [
+              22.45377718888929,
+              21.725971467691902,
+              0.0
+            ],
+            "length": 29.99999999999999
+          },
+          {
+            "index": 16,
+            "name": "F1:-z|F2:bore:side:1",
+            "start": [
+              22.45377718888929,
+              21.725971467691902,
+              0.0
+            ],
+            "mid": [
+              21.72597146769189,
+              17.546222811110695,
+              0.0
+            ],
+            "end": [
+              17.546222811110685,
+              18.274028532308098,
+              0.0
+            ],
+            "length": 9.308326186461944
+          },
+          {
+            "index": 17,
+            "name": "F2:bore:side:0|F2:bore:side:1~1",
+            "start": [
+              17.546222811110685,
+              18.27402853230809,
+              0.0
+            ],
+            "mid": [
+              17.546222811110685,
+              18.27402853230809,
+              14.999999999999996
+            ],
+            "end": [
+              17.546222811110685,
+              18.27402853230809,
+              29.99999999999999
+            ],
+            "length": 29.99999999999999
+          },
+          {
+            "index": 18,
+            "name": "F1:+z|F2:bore:side:0",
+            "start": [
+              22.45377718888929,
+              21.725971467691902,
+              29.99999999999999
+            ],
+            "mid": [
+              18.274028532308098,
+              22.453777188889283,
+              29.999999999999982
+            ],
+            "end": [
+              17.546222811110685,
+              18.274028532308098,
+              29.99999999999999
+            ],
+            "length": 9.308326186461914
+          },
+          {
+            "index": 19,
+            "name": "F1:-z|F2:bore:side:0",
+            "start": [
+              17.546222811110685,
+              18.27402853230809,
+              0.0
+            ],
+            "mid": [
+              18.27402853230809,
+              22.453777188889283,
+              0.0
+            ],
+            "end": [
+              22.45377718888929,
+              21.725971467691902,
+              0.0
+            ],
+            "length": 9.308326186461915
+          },
+          {
+            "index": 20,
+            "name": "F1:+z|F3:bore:side:1",
+            "start": [
+              40.91037135185114,
+              17.12338088718014,
+              29.99999999999999
+            ],
+            "mid": [
+              47.87661911281982,
+              15.910371351851168,
+              29.99999999999999
+            ],
+            "end": [
+              49.08962864814885,
+              22.876619112819835,
+              29.99999999999999
+            ],
+            "length": 15.595457545845631
+          },
+          {
+            "index": 21,
+            "name": "F3:bore:side:0|F3:bore:side:1~2",
+            "start": [
+              49.08962864814885,
+              22.876619112819835,
+              29.99999999999999
+            ],
+            "mid": [
+              49.08962864814885,
+              22.876619112819835,
+              23.999999999999993
+            ],
+            "end": [
+              49.08962864814885,
+              22.876619112819835,
+              18.0
+            ],
+            "length": 11.99999999999999
+          },
+          {
+            "index": 22,
+            "name": "F3:bore:base|F3:bore:side:1",
+            "start": [
+              49.08962864814885,
+              22.876619112819835,
+              18.0
+            ],
+            "mid": [
+              47.87661911281981,
+              15.910371351851172,
+              18.0
+            ],
+            "end": [
+              40.91037135185114,
+              17.12338088718014,
+              18.0
+            ],
+            "length": 15.595457545845624
+          },
+          {
+            "index": 23,
+            "name": "F3:bore:side:0|F3:bore:side:1~1",
+            "start": [
+              40.91037135185114,
+              17.12338088718014,
+              18.0
+            ],
+            "mid": [
+              40.91037135185114,
+              17.12338088718014,
+              23.999999999999993
+            ],
+            "end": [
+              40.91037135185114,
+              17.12338088718014,
+              29.99999999999999
+            ],
+            "length": 11.99999999999999
+          },
+          {
+            "index": 24,
+            "name": "F1:+z|F3:bore:side:0",
+            "start": [
+              49.08962864814885,
+              22.876619112819835,
+              29.99999999999999
+            ],
+            "mid": [
+              42.12338088718016,
+              24.08962864814882,
+              29.999999999999982
+            ],
+            "end": [
+              40.91037135185113,
+              17.12338088718014,
+              29.99999999999999
+            ],
+            "length": 15.59545754584568
+          },
+          {
+            "index": 25,
+            "name": "F3:bore:base|F3:bore:side:0",
+            "start": [
+              40.91037135185114,
+              17.12338088718014,
+              18.0
+            ],
+            "mid": [
+              42.12338088718016,
+              24.08962864814882,
+              17.999999999999996
+            ],
+            "end": [
+              49.089628648148846,
+              22.876619112819835,
+              18.0
+            ],
+            "length": 15.595457545845676
+          },
+          {
+            "index": 26,
+            "name": "F1:+z|F4:cbore:side:1",
+            "start": [
+              70.0924456222214,
+              16.54805706461619,
+              29.99999999999999
+            ],
+            "mid": [
+              78.45194293538378,
+              15.092445622221424,
+              29.99999999999999
+            ],
+            "end": [
+              79.9075543777786,
+              23.4519429353838,
+              29.99999999999999
+            ],
+            "length": 18.71454905501471
+          },
+          {
+            "index": 27,
+            "name": "F4:cbore:side:0|F4:cbore:side:1~2",
+            "start": [
+              79.90755437777858,
+              23.4519429353838,
+              29.99999999999999
+            ],
+            "mid": [
+              79.90755437777858,
+              23.4519429353838,
+              27.49999999999999
+            ],
+            "end": [
+              79.90755437777858,
+              23.4519429353838,
+              24.99999999999999
+            ],
+            "length": 5.0
+          },
+          {
+            "index": 28,
+            "name": "F4:cbore:base|F4:cbore:side:1",
+            "start": [
+              79.90755437777858,
+              23.4519429353838,
+              24.99999999999999
+            ],
+            "mid": [
+              78.45194293538378,
+              15.092445622221415,
+              24.99999999999999
+            ],
+            "end": [
+              70.09244562222139,
+              16.548057064616195,
+              24.99999999999999
+            ],
+            "length": 18.714549055014725
+          },
+          {
+            "index": 29,
+            "name": "F4:cbore:side:0|F4:cbore:side:1~1",
+            "start": [
+              70.0924456222214,
+              16.54805706461619,
+              24.99999999999999
+            ],
+            "mid": [
+              70.0924456222214,
+              16.54805706461619,
+              27.49999999999999
+            ],
+            "end": [
+              70.0924456222214,
+              16.54805706461619,
+              29.99999999999999
+            ],
+            "length": 5.0
+          },
+          {
+            "index": 30,
+            "name": "F1:+z|F4:cbore:side:0",
+            "start": [
+              79.90755437777858,
+              23.4519429353838,
+              29.99999999999999
+            ],
+            "mid": [
+              71.54805706461619,
+              24.90755437777858,
+              29.99999999999999
+            ],
+            "end": [
+              70.0924456222214,
+              16.548057064616195,
+              29.99999999999999
+            ],
+            "length": 18.714549055014757
+          },
+          {
+            "index": 31,
+            "name": "F4:cbore:base|F4:cbore:side:0",
+            "start": [
+              70.0924456222214,
+              16.54805706461619,
+              24.99999999999999
+            ],
+            "mid": [
+              71.54805706461619,
+              24.90755437777858,
+              24.99999999999999
+            ],
+            "end": [
+              79.90755437777858,
+              23.4519429353838,
+              24.99999999999999
+            ],
+            "length": 18.71454905501476
+          },
+          {
+            "index": 32,
+            "name": "F4:bore:side:1|F4:cbore:base",
+            "start": [
+              73.98598500485767,
+              17.17656705593586,
+              24.99999999999999
+            ],
+            "mid": [
+              77.82343294406407,
+              18.98598500485768,
+              24.999999999999982
+            ],
+            "end": [
+              76.01401499514229,
+              22.823432944064105,
+              24.99999999999999
+            ],
+            "length": 9.30832618646188
+          },
+          {
+            "index": 33,
+            "name": "F4:bore:side:0|F4:bore:side:1~2",
+            "start": [
+              76.01401499514232,
+              22.82343294406411,
+              24.99999999999999
+            ],
+            "mid": [
+              76.01401499514232,
+              22.82343294406411,
+              12.499999999999996
+            ],
+            "end": [
+              76.01401499514232,
+              22.82343294406411,
+              0.0
+            ],
+            "length": 24.99999999999999
+          },
+          {
+            "index": 34,
+            "name": "F1:-z|F4:bore:side:1",
+            "start": [
+              76.01401499514232,
+              22.82343294406411,
+              0.0
+            ],
+            "mid": [
+              77.82343294406408,
+              18.98598500485768,
+              0.0
+            ],
+            "end": [
+              73.98598500485767,
+              17.176567055935855,
+              0.0
+            ],
+            "length": 9.308326186461915
+          },
+          {
+            "index": 35,
+            "name": "F4:bore:side:0|F4:bore:side:1~1",
+            "start": [
+              73.98598500485767,
+              17.17656705593586,
+              0.0
+            ],
+            "mid": [
+              73.98598500485767,
+              17.17656705593586,
+              12.499999999999996
+            ],
+            "end": [
+              73.98598500485767,
+              17.17656705593586,
+              24.99999999999999
+            ],
+            "length": 24.99999999999999
+          },
+          {
+            "index": 36,
+            "name": "F4:bore:side:0|F4:cbore:base",
+            "start": [
+              76.01401499514232,
+              22.82343294406411,
+              24.99999999999999
+            ],
+            "mid": [
+              72.17656705593588,
+              21.014014995142304,
+              24.99999999999999
+            ],
+            "end": [
+              73.98598500485767,
+              17.17656705593586,
+              24.99999999999999
+            ],
+            "length": 9.308326186461954
+          },
+          {
+            "index": 37,
+            "name": "F1:-z|F4:bore:side:0",
+            "start": [
+              73.98598500485767,
+              17.17656705593586,
+              0.0
+            ],
+            "mid": [
+              72.17656705593588,
+              21.01401499514231,
+              0.0
+            ],
+            "end": [
+              76.01401499514232,
+              22.82343294406411,
+              0.0
+            ],
+            "length": 9.30832618646195
+          },
+          {
+            "index": 38,
+            "name": "F1:+z|F6:-x",
+            "start": [
+              35.0,
+              42.0,
+              29.999999999999982
+            ],
+            "mid": [
+              35.0,
+              51.0,
+              29.999999999999982
+            ],
+            "end": [
+              35.0,
+              60.0,
+              29.999999999999982
+            ],
+            "length": 18.0
+          },
+          {
+            "index": 39,
+            "name": "F1:+z|F6:+y",
+            "start": [
+              35.0,
+              60.0,
+              29.999999999999982
+            ],
+            "mid": [
+              50.0,
+              60.0,
+              29.999999999999982
+            ],
+            "end": [
+              65.0,
+              60.0,
+              29.999999999999982
+            ],
+            "length": 30.0
+          },
+          {
+            "index": 40,
+            "name": "F1:+z|F6:+x",
+            "start": [
+              65.0,
+              60.0,
+              29.999999999999982
+            ],
+            "mid": [
+              65.0,
+              51.0,
+              29.999999999999982
+            ],
+            "end": [
+              65.0,
+              42.0,
+              29.999999999999982
+            ],
+            "length": 18.0
+          },
+          {
+            "index": 41,
+            "name": "F1:+z|F6:-y",
+            "start": [
+              65.0,
+              42.0,
+              29.999999999999982
+            ],
+            "mid": [
+              50.0,
+              42.0,
+              29.999999999999982
+            ],
+            "end": [
+              35.0,
+              42.0,
+              29.999999999999982
+            ],
+            "length": 30.0
+          },
+          {
+            "index": 42,
+            "name": "F5:bore:base|F5:bore:side:0",
+            "start": [
+              15.0,
+              46.72829708148093,
+              17.301295290255865
+            ],
+            "mid": [
+              15.0,
+              52.30129529025585,
+              18.271702918519058
+            ],
+            "end": [
+              15.0,
+              53.27170291851906,
+              12.698704709744138
+            ],
+            "length": 12.476366036676486
+          },
+          {
+            "index": 43,
+            "name": "F5:bore:base|F5:bore:side:1",
+            "start": [
+              15.0,
+              53.27170291851907,
+              12.698704709744137
+            ],
+            "mid": [
+              15.0,
+              47.698704709744135,
+              11.728297081480932
+            ],
+            "end": [
+              15.0,
+              46.72829708148093,
+              17.301295290255865
+            ],
+            "length": 12.47636603667651
+          },
+          {
+            "index": 44,
+            "name": "F5:bore:side:0|F5:bore:side:1~2",
+            "start": [
+              -3.552713678800501e-15,
+              53.27170291851907,
+              12.698704709744137
+            ],
+            "mid": [
+              7.499999999999998,
+              53.27170291851907,
+              12.698704709744137
+            ],
+            "end": [
+              15.0,
+              53.27170291851907,
+              12.698704709744137
+            ],
+            "length": 15.000000000000004
+          },
+          {
+            "index": 45,
+            "name": "F5:bore:side:0|F5:bore:side:1~1",
+            "start": [
+              15.0,
+              46.72829708148093,
+              17.301295290255865
+            ],
+            "mid": [
+              7.499999999999999,
+              46.72829708148093,
+              17.301295290255865
+            ],
+            "end": [
+              -1.7763568394002505e-15,
+              46.72829708148093,
+              17.301295290255865
+            ],
+            "length": 15.000000000000002
+          },
+          {
+            "index": 46,
+            "name": "F6:-y|F6:-z",
+            "start": [
+              35.0,
+              42.0,
+              24.0
+            ],
+            "mid": [
+              50.0,
+              42.0,
+              24.0
+            ],
+            "end": [
+              65.0,
+              42.0,
+              24.0
+            ],
+            "length": 30.0
+          },
+          {
+            "index": 47,
+            "name": "F6:+x|F6:-z",
+            "start": [
+              65.0,
+              42.0,
+              24.0
+            ],
+            "mid": [
+              65.0,
+              51.0,
+              24.0
+            ],
+            "end": [
+              65.0,
+              60.0,
+              24.0
+            ],
+            "length": 18.0
+          },
+          {
+            "index": 48,
+            "name": "F6:+y|F6:-z",
+            "start": [
+              65.0,
+              60.0,
+              24.0
+            ],
+            "mid": [
+              50.0,
+              60.0,
+              24.0
+            ],
+            "end": [
+              35.0,
+              60.0,
+              24.0
+            ],
+            "length": 30.0
+          },
+          {
+            "index": 49,
+            "name": "F6:-x|F6:-z",
+            "start": [
+              35.0,
+              60.0,
+              24.0
+            ],
+            "mid": [
+              35.0,
+              51.0,
+              24.0
+            ],
+            "end": [
+              35.0,
+              42.0,
+              24.0
+            ],
+            "length": 18.0
+          },
+          {
+            "index": 50,
+            "name": "F6:+x|F6:-y",
+            "start": [
+              65.0,
+              42.0,
+              29.999999999999982
+            ],
+            "mid": [
+              65.0,
+              42.0,
+              26.999999999999993
+            ],
+            "end": [
+              65.0,
+              42.0,
+              24.0
+            ],
+            "length": 5.999999999999982
+          },
+          {
+            "index": 51,
+            "name": "F6:-x|F6:-y",
+            "start": [
+              35.0,
+              42.0,
+              24.0
+            ],
+            "mid": [
+              35.0,
+              42.0,
+              26.999999999999993
+            ],
+            "end": [
+              35.0,
+              42.0,
+              29.999999999999982
+            ],
+            "length": 5.999999999999982
+          },
+          {
+            "index": 52,
+            "name": "F6:+x|F6:+y",
+            "start": [
+              65.0,
+              60.0,
+              29.999999999999982
+            ],
+            "mid": [
+              65.0,
+              60.0,
+              26.999999999999993
+            ],
+            "end": [
+              65.0,
+              60.0,
+              24.0
+            ],
+            "length": 5.999999999999982
+          },
+          {
+            "index": 53,
+            "name": "F6:+y|F6:-x",
+            "start": [
+              35.0,
+              60.0,
+              29.999999999999982
+            ],
+            "mid": [
+              35.0,
+              60.0,
+              26.999999999999993
+            ],
+            "end": [
+              35.0,
+              60.0,
+              24.0
+            ],
+            "length": 5.999999999999982
+          }
+        ]
+      }
+    ],
+    "measurements": [
+      {
+        "bodies": [
+          {
+            "area_mm2": 26642.05310092848,
+            "bbox": {
+              "max": [
+                100.0,
+                70.0,
+                30.00000000000001
+              ],
+              "min": [
+                -3.108624468950765e-15,
+                0.0,
+                -6.661338147750937e-15
+              ]
+            },
+            "center_of_mass": [
+              50.149748220393725,
+              34.915203457157126,
+              14.7405077958068
+            ],
+            "density_g_cm3": 1.29,
+            "edges": 34,
+            "face_types": {
+              "cylinder": 5,
+              "plane": 14
+            },
+            "faces": 19,
+            "kernel": {
+              "edges": 54,
+              "faces": 24,
+              "shells": 1,
+              "vertices": 36
+            },
+            "mass_g": 261.7971093074851,
+            "material": "Default",
+            "name": "BridgePlate",
+            "vertices": 26,
+            "volume_mm3": 202943.4955871977
+          }
+        ],
+        "body_count": 1,
+        "total": {
+          "area_mm2": 26642.05310092848,
+          "edges": 34,
+          "faces": 19,
+          "mass_g": 261.7971093074851,
+          "vertices": 26,
+          "volume_mm3": 202943.4955871977
+        }
+      }
+    ]
+  }
+}

@@ -1,23 +1,19 @@
-# pixCAM v0.2 benchmark
+# pixCAM v0.3 benchmark
 
-Measured on 2026-10-21 on the target development workstation using the release binary and 100 consecutive deterministic rebuilds into a temporary directory:
+Measured on the target Linux x86_64 workstation against the original synthetic SolidCraft specimen. Raw summarized measurements: [bridge-benchmark.json](bridge-benchmark.json).
 
-```json
-{
-  "runs": 100,
-  "median_ms": 6.427,
-  "p95_ms": 8.327,
-  "min_ms": 5.886,
-  "max_ms": 10.232,
-  "output_files": 6,
-  "output_bytes": 439956
-}
-```
+| Scope | Samples | Median | p95 |
+| --- | ---: | ---: | ---: |
+| JSON parse, validation, recognition and report construction | 1,000 + 20 warmup | 0.211 ms | 0.326 ms |
+| Fresh headless CLI/MCP capture including document load and consistency checks | 10 | 975.993 ms | 1,051.226 ms |
 
-Reproduce after `cargo build --locked --release`:
+Input: 42,041 bytes, one 100 × 70 × 30 mm body, 24 topological faces, ten cylindrical patches and five merged cylindrical segments. Timing includes report construction but excludes serialization in the in-process recognition row. The capture row includes process startup, authentication-free isolated loading, four read-only tool types and local analysis; it is not the persistent connected-refresh latency.
 
 ```sh
-node scripts/benchmark.mjs 100
+cargo build --release --locked --offline
+python3 scripts/bridge-benchmark.py
 ```
 
-The measurement includes constructing the synthetic scene, parsing 27 NC motions, interpolating arcs, serialising JSON/CSV/SVG/DXF and embedding the complete offline HTML. It excludes Rust compilation, browser startup and video recording. Results are a local implementation benchmark, not a machining-time or cross-machine performance claim.
+Run on an otherwise representative workstation; these are fixture measurements, not a throughput promise for large assemblies. Pairwise grouping can grow quadratically with cylinder count. GUI rendering, access proof, Booleans and stock removal are outside the recognition benchmark.
+
+The retained `scripts/benchmark.mjs` measures full standalone showcase generation and remains available for build-focused comparisons.

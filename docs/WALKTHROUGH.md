@@ -1,23 +1,26 @@
-# 72-second browser walkthrough
+# From SolidCraft CAD to Manufacturing Intelligence
 
-`media/pixcam-coordinate-inspector-72s.mp4` is an original 1440 × 1280, 10 fps, H.264 recording lasting exactly 72 seconds. It contains English captions and no audio. The recorder captures 720 frames from the synthetic browser viewport only — never the desktop, terminal, browser address bar or another application window.
+Watch [the 36-second v0.3 film](../media/pixcam-solidcraft-bridge-36s.mp4). It records actual browser frames from a Rust adapter connected to an isolated SolidCraft 0.17.0 GUI. No desktop, user document or control token is captured.
 
-| Time | View |
-|---|---|
-| 0–6 s | pixCAM v0.2 Coordinate Inspector opening |
-| 6–19 s | Front and right setup transitions; explicit frame selector |
-| 19–26.5 s | Compound orientation, CAD frame and 4×4 matrix |
-| 26.5–32.5 s | Selected hole position and axis |
-| 32.5–38.5 s | Synthetic feature map |
-| 38.5–52.5 s | Clickable NC move explanations and arc playback |
-| 52.5–59 s | Second arc and complete geometric details |
-| 59–65 s | Offline deterministic exports |
-| 65–72 s | Limits and closing identity |
+1. Open the synthetic native document in a separate SolidCraft GUI.
+2. Start pixCAM's loopback adapter with --connect and that app's actual port.
+3. Choose CONNECTED and Refresh analysis; confirm bridge-part and 100 × 70 × 30 mm.
+4. Inspect CY02: Ø10, Z axis, available span 12 mm.
+5. Inspect coaxial CY03/CY04: Ø12/Ø6 and the possible counterbore hypothesis.
+6. Select CY05 and Y +90°: its X axis becomes parallel to Machine Z. Access remains unverified.
+7. Explore the compound geometric 3+2 orientation and surface-normal map.
+8. Export the current report JSON, registry CSV, source snapshot JSON, SVG map and PNG view.
 
-Recreate with Playwright, Chromium and FFmpeg installed:
+The three v0.3 screenshots show offline DEMO, imported topology and a real GUI CONNECTED capture. The refreshed legacy-laboratory screenshots and historical 72-second film document the separate Aurora Coordinate/NC experience.
+
+To reproduce the isolated GUI test and film:
 
 ```sh
-node scripts/record.mjs /absolute/path/to/playwright/index.mjs
+cargo build --locked --offline
+./target/debug/pixcam-showcase build dist
+python3 scripts/live-gui-test.py --record
 ```
 
-Set `CHROMIUM` if the browser executable is not `/usr/bin/chromium`. The script overwrites only its named v0.2 movie. Screenshots are generated independently by `scripts/browser-test.mjs`.
+Set PIXCAM_PLAYWRIGHT to an installed module path if Playwright is not available as a package. The harness creates a temporary profile/control directory, dynamically chooses a port, opens only fixtures/bridge-part.solidcraft, verifies no file change and terminates its own app process.
+
+The film demonstrates geometry and planning assistance. It does not demonstrate certified manufacturing, complete hole classification, collision checking or a generated NC program.
