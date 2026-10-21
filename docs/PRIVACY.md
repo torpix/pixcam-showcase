@@ -12,9 +12,19 @@ The bridge does not log geometry or raw SolidCraft errors. It never reads contro
 
 ## Release gate
 
-`node scripts/privacy-check.mjs` enforces an explicit path allowlist, rejects symlinks/unexpected binaries, checks synthetic contracts and scans text for prohibited data, personal paths and common secrets. Only the two exact pinned local SolidCraft executable paths are exempted from the personal-path check because the integration requires them.
+`node scripts/privacy-check.mjs` enforces an explicit path allowlist, rejects
+symlinks/unexpected binaries, checks synthetic contracts and scans current text
+for prohibited data, personal paths and common secrets. Current public files
+receive no local-install-path exception.
 
-`--history` additionally scans every local Git object, verifies one root and exactly five commits (the reviewed v0.1 → v0.2 → v0.3 chain plus the P0–P3 checkpoint and v0.4 RC1), no merges/remotes/alternates and a clean public worktree. It checks all text objects, admitted image/video signatures and the exact synthetic native ZIP hash. No general binary/archive exemption is granted.
+`--history` additionally scans every object reachable from public refs, verifies a
+single-root, no-merge public history and the reviewed v0.2 → v0.3 ancestry, and
+rejects object alternates. It works in an ordinary public clone with an
+`origin` remote and does not assume a fixed commit count. It checks text
+objects, admitted image/video signatures and the exact synthetic native ZIP
+hash. Historical developer-local SolidCraft executable examples are normalized
+only while scanning old immutable blobs; current files receive no such
+exception. No general binary/archive exemption is granted.
 
 Ignored target/node_modules/test-results caches are not release materials. Local GUI snapshots and runtime evidence stay in test-results and are not committed. Future connected documents may be private: do not copy their exports, captures or recordings into this public repository.
 

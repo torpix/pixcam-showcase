@@ -2,10 +2,12 @@
 
 Control authentication stays inside SolidCraft/CLI and is never read or printed.
 """
-import hashlib,json,os,re,signal,socket,subprocess,sys,tempfile,time,urllib.request,urllib.error
+import hashlib,json,os,re,shutil,signal,socket,subprocess,sys,tempfile,time,urllib.request,urllib.error
 from pathlib import Path
 
-APP='/home/torpix/Aplikacje/solidcraft-0.17.0.AppImage'
+APP=os.environ.get('PIXCAM_SOLIDCRAFT_APP') or shutil.which('solidcraft')
+if not APP:
+    raise SystemExit('Set PIXCAM_SOLIDCRAFT_APP to the SolidCraft 0.17.0 GUI executable (or put solidcraft on PATH)')
 PLAYWRIGHT=os.environ.get('PIXCAM_PLAYWRIGHT','playwright')
 specimen=Path('fixtures/bridge-part.solidcraft')
 before=hashlib.sha256(specimen.read_bytes()).hexdigest()

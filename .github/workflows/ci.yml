@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  portable-linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust 1.95 with quality tools
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.95.0
+          components: rustfmt, clippy
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install schema validator
+        run: python -m pip install --requirement requirements-ci.txt
+
+      - name: Build
+        run: cargo build --locked
+
+      - name: Test synthetic fixtures and fault injection
+        run: cargo test --locked
+
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+
+      - name: Clippy (warnings are errors)
+        run: cargo clippy --locked --all-targets -- -D warnings
+
+      - name: Validate JSON schemas and real CLI examples
+        run: |
+          python scripts/schema-test.py
+          python scripts/geometry-schema-test.py
+          python scripts/cycle-schema-test.py
+          python scripts/manufacture-schema-test.py
+
+      - name: Audit public files and privacy boundary
+        run: node scripts/privacy-check.mjs
+
+      - name: Rebuild standalone demo deterministically
+        run: |
+          target/debug/pixcam-showcase build target/ci-dist
+          diff --recursive --brief dist target/ci-dist
+
+# GitHub Pages remains intentionally manual in pages.yml.
+# A real SolidCraft 0.17.0 bridge run is an opt-in integration test, not a CI dependency.

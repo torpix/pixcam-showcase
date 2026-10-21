@@ -1,0 +1,37 @@
+{
+  "schema_version": "pixcam.manufacture-adapter/1",
+  "producer": {"name": "pixcam-showcase", "version": "0.4.1"},
+  "units": "mm",
+  "document_revision": "synthetic-bridgeplate-r1",
+  "coordinate_frames": [{
+    "id": "cad",
+    "handedness": "right",
+    "global_from_local": [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]],
+    "status": {"evidence": "VERIFIED_GEOMETRY", "validation": "valid", "uncertainty": {"kind": "none_reported"}}
+  }],
+  "geometry": [{
+    "id": "geom:cy01",
+    "kind": "cylinder",
+    "frame_id": "cad",
+    "parameters": {"axis_origin_mm": [20,20,0], "axis_direction": [0,0,1], "radius_mm": 3},
+    "provenance": {"system": "synthetic-fixture", "document_revision": "synthetic-bridgeplate-r1", "stable_refs": ["face:bore-1"]},
+    "status": {"evidence": "VERIFIED_GEOMETRY", "validation": "valid", "uncertainty": {"kind": "unknown", "note": "Source does not publish tolerance."}}
+  }],
+  "manufacturing_features": [{
+    "id": "feature:hole-candidate-1",
+    "kind": "hole",
+    "frame_id": "cad",
+    "geometry_refs": ["geom:cy01"],
+    "parameters": {"diameter_mm": 6},
+    "status": {"evidence": "INFERRED_FEATURE", "validation": "partial", "uncertainty": {"kind": "qualitative", "note": "Termination and access are unknown."}}
+  }],
+  "position_patterns": [{
+    "id": "pattern:bolt-circle-1",
+    "kind": "circular",
+    "frame_id": "cad",
+    "source_parameters": {"count": 4, "radius_mm": 25, "start_angle_deg": 0, "sweep_angle_deg": 360},
+    "positions": [{"id": "p0", "local_xyz_mm": [25,0,0]}, {"id": "p1", "local_xyz_mm": [0,25,0]}, {"id": "p2", "local_xyz_mm": [-25,0,0]}, {"id": "p3", "local_xyz_mm": [0,-25,0]}],
+    "status": {"evidence": "GENERATED_GEOMETRY", "validation": "valid", "uncertainty": {"kind": "none_reported"}}
+  }],
+  "validation": [{"severity": "warning", "code": "feature.access.unknown", "record_ref": "feature:hole-candidate-1", "message": "Tool access has not been validated."}]
+}

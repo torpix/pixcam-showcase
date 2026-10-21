@@ -2,14 +2,16 @@
 use crate::Result;
 use serde_json::{Value, json};
 use std::{
+    ffi::OsStr,
     io::{BufRead, BufReader, Read, Write},
-    path::PathBuf,
+    path::{Path, PathBuf},
     process::{Child, ChildStdin, Command, Stdio},
     sync::mpsc::{self, Receiver},
     time::{Duration, Instant},
 };
 
-pub const CLI: &str = "/home/torpix/Aplikacje/solidcraft-cli-0.17.0";
+pub const SUPPORTED_CLI_VERSION: &str = "0.17.0";
+pub const CLI_ENV: &str = "PIXCAM_SOLIDCRAFT_CLI";
 pub const READ_ONLY_TOOLS: &[&str] = &[
     "list_commands",
     "inspect_design",
@@ -28,7 +30,7 @@ pub struct Config {
 impl Default for Config {
     fn default() -> Self {
         Self {
-            executable: CLI.into(),
+            executable: PathBuf::new(),
             input: None,
             connect: None,
             timeout: Duration::from_secs(15),
@@ -37,8 +39,14 @@ impl Default for Config {
 }
 impl Config {
     pub fn validate(&self) -> Result<()> {
-        if !self.executable.is_absolute() || self.timeout.is_zero() {
-            return Err("Absolute CLI path and positive timeout required".into());
+        if self.executable.as_os_str().is_empty() {
+            return Err("SolidCraft CLI is not configured; use --solidcraft-cli PATH, set PIXCAM_SOLIDCRAFT_CLI, or install solidcraft-cli on PATH".into());
+        }
+        if !self.executable.is_absolute() {
+            return Err("Resolved SolidCraft CLI path must be absolute".into());
+        }
+        if self.timeout.is_zero() {
+            return Err("MCP timeout must be positive".into());
         }
         if self.input.is_some() && self.connect.is_some() {
             return Err("Choose an isolated input OR an active app connection".into());
@@ -57,8 +65,67 @@ impl Config {
     }
 }
 
+fn checked_executable(path: &Path, source: &str) -> Result<PathBuf> {
+    let resolved = std::fs::canonicalize(path).map_err(|error| {
+        format!(
+            "SolidCraft CLI from {source} is unavailable at '{}': {error}",
+            path.display()
+        )
+    })?;
+    let metadata = std::fs::metadata(&resolved).map_err(|error| {
+        format!(
+            "Cannot inspect SolidCraft CLI from {source} at '{}': {error}",
+            resolved.display()
+        )
+    })?;
+    if !metadata.is_file() {
+        return Err(format!(
+            "SolidCraft CLI from {source} is not a file: '{}'",
+            resolved.display()
+        ));
+    }
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        if metadata.permissions().mode() & 0o111 == 0 {
+            return Err(format!(
+                "SolidCraft CLI from {source} is not executable: '{}'",
+                resolved.display()
+            ));
+        }
+    }
+    Ok(resolved)
+}
+
+/// Resolve the CLI without mutating an installation. Precedence is explicit option, environment,
+/// then the first executable named `solidcraft-cli` on PATH.
+pub fn resolve_cli(
+    explicit: Option<&Path>,
+    environment: Option<&OsStr>,
+    search_path: Option<&OsStr>,
+) -> Result<PathBuf> {
+    if let Some(path) = explicit {
+        return checked_executable(path, "--solidcraft-cli");
+    }
+    if let Some(value) = environment.filter(|value| !value.is_empty()) {
+        return checked_executable(Path::new(value), CLI_ENV);
+    }
+    if let Some(value) = search_path {
+        for directory in std::env::split_paths(value) {
+            let candidate = directory.join("solidcraft-cli");
+            if candidate.is_file()
+                && let Ok(resolved) = checked_executable(&candidate, "PATH")
+            {
+                return Ok(resolved);
+            }
+        }
+    }
+    Err("SolidCraft CLI not found. Selection order: --solidcraft-cli PATH, PIXCAM_SOLIDCRAFT_CLI, then solidcraft-cli on PATH. Supported and tested version: 0.17.0".into())
+}
+
 pub fn config(args: &[String]) -> Result<Config> {
     let mut c = Config::default();
+    let mut explicit_cli = None;
     let mut i = 0;
     while i < args.len() {
         let value = args.get(i + 1).ok_or("Missing bridge option value")?;
@@ -70,14 +137,20 @@ pub fn config(args: &[String]) -> Result<Config> {
             "--timeout-ms" => {
                 c.timeout = Duration::from_millis(value.parse().map_err(|_| "Invalid timeout")?)
             }
+            "--solidcraft-cli" => explicit_cli = Some(PathBuf::from(value)),
             _ => {
                 return Err(
-                    "Options: --in FILE OR --connect 127.0.0.1:PORT; --timeout-ms N".into(),
+                    "Options: --solidcraft-cli PATH; --in FILE OR --connect 127.0.0.1:PORT; --timeout-ms N".into(),
                 );
             }
         }
         i += 2;
     }
+    c.executable = resolve_cli(
+        explicit_cli.as_deref(),
+        std::env::var_os(CLI_ENV).as_deref(),
+        std::env::var_os("PATH").as_deref(),
+    )?;
     c.validate()?;
     Ok(c)
 }
@@ -107,7 +180,12 @@ impl Client {
             .stdout(Stdio::piped())
             .stderr(Stdio::null())
             .spawn()
-            .map_err(|_| "Cannot start SolidCraft CLI 0.17.0")?;
+            .map_err(|error| {
+                format!(
+                    "Cannot start SolidCraft CLI at '{}': {error}",
+                    config.executable.display()
+                )
+            })?;
         let stdin = child.stdin.take();
         let stdout = child.stdout.take().ok_or("Missing MCP stdout")?;
         let (tx, messages) = mpsc::sync_channel(8);
@@ -143,10 +221,13 @@ impl Client {
         };
         let init = client.request("initialize", json!({"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"pixCAM read-only bridge","version":"0.3.0"}}))?;
         if init["serverInfo"]["name"] != "solidcraft"
-            || init["serverInfo"]["version"] != "0.17.0"
+            || init["serverInfo"]["version"] != SUPPORTED_CLI_VERSION
             || init["protocolVersion"] != "2025-03-26"
         {
-            return Err("Incompatible SolidCraft server/protocol; require 0.17.0".into());
+            return Err(format!(
+                "Incompatible SolidCraft MCP handshake: require server solidcraft {SUPPORTED_CLI_VERSION} and protocol 2025-03-26 (reported name={}, version={}, protocol={})",
+                init["serverInfo"]["name"], init["serverInfo"]["version"], init["protocolVersion"]
+            ));
         }
         client.send(&json!({"jsonrpc":"2.0","method":"notifications/initialized"}))?;
         Ok(client)

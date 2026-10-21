@@ -59,7 +59,7 @@ fn run() -> Result<()> {
             );
             Ok(())
         }
-        _ => Err("Usage: pixcam-showcase cycle REQUEST.json [EXPORT_DIR] | registry CAD_SNAPSHOT.json CYCLE_REQUEST.json | build [DIR] | bridge (--in FILE | --connect 127.0.0.1:PORT) [--timeout-ms N] | capture-solidcraft [--in FILE | --connect 127.0.0.1:PORT] [--timeout-ms N] | analyze-solidcraft SNAPSHOT.json | benchmark-solidcraft SNAPSHOT.json | mcp | tool-schemas | import-solidcraft-snapshot SNAPSHOT.json".into()),
+        _ => Err("Usage: pixcam-showcase cycle REQUEST.json [EXPORT_DIR] | registry CAD_SNAPSHOT.json CYCLE_REQUEST.json | build [DIR] | bridge [--solidcraft-cli PATH] (--in FILE | --connect 127.0.0.1:PORT) [--timeout-ms N] | capture-solidcraft [--solidcraft-cli PATH] [--in FILE | --connect 127.0.0.1:PORT] [--timeout-ms N] | analyze-solidcraft SNAPSHOT.json | benchmark-solidcraft SNAPSHOT.json | mcp | tool-schemas | import-solidcraft-snapshot SNAPSHOT.json".into()),
     }
 }
 fn main() {

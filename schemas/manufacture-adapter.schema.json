@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pixcam.example/schemas/manufacture-adapter.schema.json",
+  "title": "pixCAM neutral manufacture adapter exchange",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "producer", "units", "document_revision", "coordinate_frames", "geometry", "manufacturing_features", "position_patterns", "validation"],
+  "properties": {
+    "schema_version": {"const": "pixcam.manufacture-adapter/1"},
+    "producer": {
+      "type": "object", "additionalProperties": false, "required": ["name", "version"],
+      "properties": {"name": {"type": "string", "minLength": 1}, "version": {"type": "string", "minLength": 1}}
+    },
+    "units": {"const": "mm"},
+    "document_revision": {"type": "string", "minLength": 1, "maxLength": 256},
+    "coordinate_frames": {"type": "array", "minItems": 1, "maxItems": 256, "items": {"$ref": "#/$defs/frame"}},
+    "geometry": {"type": "array", "maxItems": 100000, "items": {"$ref": "#/$defs/geometry"}},
+    "manufacturing_features": {"type": "array", "maxItems": 100000, "items": {"$ref": "#/$defs/feature"}},
+    "position_patterns": {"type": "array", "maxItems": 4096, "items": {"$ref": "#/$defs/pattern"}},
+    "validation": {"type": "array", "maxItems": 10000, "items": {"$ref": "#/$defs/finding"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"},
+    "vector3": {"type": "array", "minItems": 3, "maxItems": 3, "prefixItems": [{"type": "number"}, {"type": "number"}, {"type": "number"}], "items": false},
+    "matrix4": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "number"}}},
+    "status": {
+      "type": "object", "additionalProperties": false, "required": ["evidence", "validation", "uncertainty"],
+      "properties": {
+        "evidence": {"enum": ["VERIFIED_GEOMETRY", "GENERATED_GEOMETRY", "INFERRED_FEATURE", "UNKNOWN"]},
+        "validation": {"enum": ["valid", "partial", "invalid", "unvalidated"]},
+        "uncertainty": {"type": "object", "additionalProperties": false, "required": ["kind"], "properties": {"kind": {"enum": ["none_reported", "absolute_mm", "angular_deg", "qualitative", "unknown"]}, "value": {"type": "number", "minimum": 0}, "note": {"type": "string", "maxLength": 1024}}}
+      }
+    },
+    "frame": {
+      "type": "object", "additionalProperties": false, "required": ["id", "handedness", "global_from_local"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "parent_id": {"$ref": "#/$defs/id"}, "handedness": {"const": "right"}, "global_from_local": {"$ref": "#/$defs/matrix4"}, "status": {"$ref": "#/$defs/status"}}
+    },
+    "provenance": {
+      "type": "object", "additionalProperties": false, "required": ["system", "document_revision", "stable_refs"],
+      "properties": {"system": {"type": "string", "minLength": 1}, "document_revision": {"type": "string", "minLength": 1}, "stable_refs": {"type": "array", "maxItems": 1024, "items": {"type": "string", "minLength": 1, "maxLength": 1024}}, "capture_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+    },
+    "geometry": {
+      "type": "object", "additionalProperties": false, "required": ["id", "kind", "frame_id", "parameters", "provenance", "status"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "kind": {"enum": ["point", "axis", "plane", "cylinder", "boundary", "mesh_reference", "other"]}, "frame_id": {"$ref": "#/$defs/id"}, "parameters": {"type": "object"}, "provenance": {"$ref": "#/$defs/provenance"}, "status": {"$ref": "#/$defs/status"}}
+    },
+    "feature": {
+      "type": "object", "additionalProperties": false, "required": ["id", "kind", "frame_id", "geometry_refs", "parameters", "status"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "kind": {"enum": ["hole", "counterbore", "pocket", "planar_region", "position_pattern", "stock", "unknown"]}, "frame_id": {"$ref": "#/$defs/id"}, "geometry_refs": {"type": "array", "maxItems": 4096, "items": {"$ref": "#/$defs/id"}}, "parameters": {"type": "object"}, "status": {"$ref": "#/$defs/status"}}
+    },
+    "position": {
+      "type": "object", "additionalProperties": false, "required": ["id", "local_xyz_mm"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "local_xyz_mm": {"$ref": "#/$defs/vector3"}}
+    },
+    "pattern": {
+      "type": "object", "additionalProperties": false, "required": ["id", "kind", "frame_id", "source_parameters", "positions", "status"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "kind": {"enum": ["circular", "rectangular", "explicit"]}, "frame_id": {"$ref": "#/$defs/id"}, "source_parameters": {"type": "object"}, "positions": {"type": "array", "minItems": 1, "maxItems": 100000, "items": {"$ref": "#/$defs/position"}}, "status": {"$ref": "#/$defs/status"}}
+    },
+    "finding": {
+      "type": "object", "additionalProperties": false, "required": ["severity", "code", "message"],
+      "properties": {"severity": {"enum": ["info", "warning", "error"]}, "code": {"$ref": "#/$defs/id"}, "record_ref": {"$ref": "#/$defs/id"}, "message": {"type": "string", "minLength": 1, "maxLength": 2048}}
+    }
+  }
+}
