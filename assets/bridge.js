@@ -112,6 +112,6 @@
     return result+'<text x="20" y="400" fill="#8fa7ad" font-size="12">Projected boundary samples + analytic cylinders. Planning aid / incomplete geometry stays unknown.</text></svg>';}
   el('bridge-json').onclick=()=>download('pixcam-report.json',JSON.stringify(report,null,2));el('bridge-csv').onclick=()=>download('pixcam-registry.csv',csv(),'text/csv');el('bridge-snapshot').onclick=()=>download('solidcraft-snapshot.json',JSON.stringify(report.snapshot,null,2));el('bridge-svg').onclick=()=>download('pixcam-surface-map.svg',svg(),'image/svg+xml');el('bridge-png').onclick=()=>{const a=document.createElement('a');a.href=canvas.toDataURL();a.download='pixcam-cad-view.png';a.click();};
   el('legacy-toggle').onclick=()=>{const lab=el('legacy-lab');lab.hidden=!lab.hidden;el('legacy-toggle').setAttribute('aria-expanded',String(!lab.hidden));};
-  document.querySelector('.version').textContent='PARAMETRIC CYCLES · v0.4 RC1';document.querySelector('.safe').textContent='● Local geometry · read-only';
+  document.querySelector('.version').textContent='PARAMETRIC CYCLES · v0.4.1';document.querySelector('.safe').textContent='● Local geometry · read-only';
   window.pixcamBridge={analyze,get report(){return report;},get dataMode(){return dataMode;},get stale(){return stale;},csv,svg};render();
 })();

@@ -1,61 +1,94 @@
-# pixCAM v0.4 RC1 verification
+# pixCAM v0.4.1 verification
 
-Verified locally on Linux, 2026-10-21. No push was performed.
+Verified locally on Linux on 2026-10-21. The complete committed tree was cloned
+to a fresh temporary directory before the final build, tests, exports, browser
+regressions, real SolidCraft checks, and history audit. No push, release, tag
+change, or Pages deployment was performed.
 
-## Rust
+## Portable Rust and CI gate
 
-- Public: 38 tests pass with `cargo test --locked --offline`; one installed-CAD test is ignored by default and passes when explicitly run (39 total).
-- Real headless test: two independent MCP initialize/capture/shutdown cycles against the native 0.17.0 CLI and synthetic document.
-- Private enclosing engine: all 37 regression tests pass, with its original inputs kept private.
-- Both crates pass format and Clippy with warnings denied.
+- `cargo build --release --locked --offline`: pass in the fresh clone.
+- `cargo test --locked --offline`: 40 pass; the one real-CAD test is ignored by
+  default.
+- `cargo fmt --all -- --check`: pass.
+- `cargo clippy --locked --offline --all-targets -- -D warnings`: pass.
+- Explicit real headless 0.17.0 test: pass, including two complete independent
+  initialize/capture/shutdown sessions.
+- README circular and rectangular release commands: pass; JSON/CSV/SVG/DXF
+  files were produced outside the repository.
+- Rebuilt `dist` matched the committed standalone demo byte-for-byte.
 
-```sh
-cargo test --locked --offline
-cargo test --locked --offline actual_headless_mcp_roundtrip_and_restart -- --ignored
-cargo fmt --check
-cargo clippy --locked --offline --all-targets -- -D warnings
-```
+The GitHub workflow repeats build, default tests, format, Clippy, schemas,
+synthetic fixture/export checks, privacy, and deterministic demo generation on
+push and pull requests to `main`. It does not install SolidCraft, open a GUI,
+require a GPU, read private data, or deploy Pages. The existing Pages workflow
+remains `workflow_dispatch` only.
 
-Fault injection covers timeout, process EOF, malformed JSON, wrong response ID, mixed result/error, incompatible version, JSON-RPC errors, tool errors and mutation denial. Endpoints reject non-localhost addresses and mutually exclusive input/connect configuration. Raw CAD diagnostics are suppressed.
+## Bridge failure and security cases
 
-Recognition checks document/body/bbox, ten patches → five segments, axes, origins, diameters, measured boundary spans, coaxial steps, right-handed frames, deterministic repeatability, invalid geometry, unknown external surfaces and absent-edge null spans.
+Automated fault injection passed for:
 
-## Chromium
+- absent CLI and invalid explicit path, with no snapshot on stdout;
+- explicit option → environment → `PATH` precedence and a path containing
+  spaces;
+- incompatible SolidCraft version and MCP protocol;
+- timeout, process disconnect, malformed JSON, wrong response ID, and mixed
+  result/error envelopes;
+- suppression of secret-like JSON-RPC and tool errors;
+- denial of every tested CAD mutation command before transport;
+- external/non-loopback control addresses and ambiguous input/connect mode;
+- hostile Host/Origin, absent HTTP session, and generic tool route denial;
+- actual app exit → HTTP 502/stale → app restart → fresh capture;
+- unchanged hash of the synthetic native CAD file.
 
-v0.4 adds `node scripts/cycles-browser-test.mjs /absolute/path/to/playwright/index.mjs`: Rust/browser parity within 1e-8 mm for both pattern fixtures, open/CW arcs, 4×3 grid rotation, 3+2 and custom rigid frames, individual coordinates, invalid-input export blocking, JSON/CSV/SVG/DXF downloads, combined CAD/cycle registry, mobile layout and zero network/JS errors. `python3 scripts/cycle-schema-test.py` independently validates requests and real CLI exports, including exact full-precision JSON/CSV registry coordinates and source parameters. The Rust DXF test reconstructs global circle centers from OCS plus extrusion normals independently of exported POINT entities.
+The security and residual-risk analysis is in [SECURITY.md](SECURITY.md).
 
-The original suites below were rerun on the v0.4 page. Actual isolated GUI capture, app exit/stale state and app restart recovery pass. The retained geometry snapshot/report schema remains compatible with v0.3; package version is 0.4.0-rc.1.
+## Chromium regressions
 
-Build the debug binary and dist first. Supply an installed Playwright module path as the final argument if needed.
+All three suites passed using headless Chromium without a GPU:
 
-```sh
-cargo build --locked --offline
-./target/debug/pixcam-showcase build dist
-node scripts/browser-test.mjs /absolute/path/to/playwright/index.mjs
-node scripts/bridge-browser-test.mjs /absolute/path/to/playwright/index.mjs
-python3 scripts/live-gui-test.py
-```
+- Coordinate/ISO-NC: four animated setups, five frames, matrices, nine
+  features, 27 motions, interpolated arcs, JSON/CSV/SVG/DXF and PNG downloads,
+  mobile layout, and no network/JavaScript errors.
+- Parametric Cycles: Rust/browser parity within 1e-8 mm, circular/open/CW and
+  4×3 rotated-grid cases, 3+2/custom frames, numeric boundaries, export
+  blocking, JSON/CSV/SVG/DXF and combined-registry exports, mobile layout, and
+  no network/JavaScript errors.
+- Live Bridge: offline DEMO/IMPORT parity, invalid/partial JSON, all bridge
+  exports, real read-only MCP CONNECTED refresh, origin/Host/session/route
+  rejection, disconnect/stale handling, and reconnect.
 
-The legacy browser suite passes four setups, five frames, matrices, nine annotations, 27 clickable motions, interpolated arcs, all original downloads, PNG, mobile layout, SVG and zero network/JS errors.
+The full GUI harness passed against a real, isolated SolidCraft 0.17.0 process
+using only the included BridgePlate, a temporary profile/control directory and
+a dynamic loopback port. It terminated only its own process. This validates the
+small synthetic specimen, not arbitrary assemblies or machine access.
 
-The bridge suite passes offline DEMO/IMPORT with zero HTTP requests; exact Rust/JS feature/group/operation parity for the captured specimen; current-document report/CSV/snapshot/SVG/PNG exports; side-axis alignment after Y90°; diameter/coaxial groups; invalid and incomplete snapshots; no-CAD adapter guidance; mobile layout; real CONNECTED refresh; hostile Origin, Host, missing session and generic-tool-route denial; repeated refresh; disconnect and explicitly stale retained data.
+## Schemas, exports, and privacy
 
-The live harness passed against an actual isolated SolidCraft 0.17.0 GUI via --connect. It creates a temporary profile/control directory, uses a dynamically selected control port and checks the synthetic file hash. Actual app exit returns HTTP 502/stale; restarting that app recovers a fresh MCP capture through the same adapter. An unused app port fails closed. The harness closes only its own GUI and never records a desktop, active user window or credentials.
-
-## Schemas, media and privacy
-
-Two new screenshots show the circular editor and rotated grid. The synthetic-only cycles film contains 240 actual Chromium frames, 1600 × 1100, 10 fps, exactly 24 seconds. It captures neither desktop nor user CAD. `scripts/package-rc.py` runs the public/history privacy gate, builds only committed tracked files, and then verifies every ZIP member against reviewed bytes before writing the archive and SHA-256 sidecar.
+All independent validators passed:
 
 ```sh
 python3 scripts/schema-test.py
 python3 scripts/geometry-schema-test.py
-node scripts/privacy-check.mjs --history
+python3 scripts/cycle-schema-test.py
+python3 scripts/manufacture-schema-test.py
 ```
 
-Six original MCP schema/result examples pass. New draft 2020-12 snapshot/report schemas validate actual capture and browser export, with negative-radius and invalid-evidence rejection. Rust supplies numerical/cross-record constraints that JSON Schema cannot express.
+They cover six real MCP schema results, snapshot/report positive and negative
+examples, exact cycle coordinates/provenance and real CLI exports, plus the
+neutral `pixcam.manufacture-adapter/1` example and units/handedness/evidence/
+empty-pattern rejection.
 
-Three v0.3 screenshots were captured from the running browser: DEMO, IMPORT surface map and actual GUI CONNECTED. The new film contains 360 actual browser frames, H.264, 1600 × 1200, 10 fps, exactly 36 seconds; its connection uses the isolated GUI, not a simulated status. Regression tests also refresh the three legacy-laboratory screenshots within the current page; the original 72-second v0.2 film remains historical.
+`node scripts/privacy-check.mjs` passed 100 explicitly allowlisted public files.
+`node scripts/privacy-check.mjs --history` passed the same tree and every
+object reachable from the public refs. The checks cover secret and private-path markers,
+synthetic contracts, the native fixture hash, unexpected binaries/symlinks, a
+single-root/no-merge public history, and reviewed ancestry. Media signatures
+and documented synthetic capture provenance complement the automated gate.
 
-Privacy checks cover the explicit release allowlist, public synthetic geometry, native CAD JSON members, known native-cache hash, secret/path markers, no remote/alternates and all local Git objects. Image/video signatures are complemented by visual review and isolated capture provenance.
+## Limits
 
-The live GUI and headless results apply to this small synthetic specimen. No real machine, certified tool access, arbitrary-assembly performance, NC generation or CYCLE800 acceptance is claimed.
+No real machine, proprietary controller data, private engine, production NC,
+certified access/collision proof, material-removal simulation, solved machine
+kinematics, postprocessor validation, or SolidCraft 0.18.x compatibility is
+claimed. The existing `v0.4.0-rc.1` release and tag were not changed.

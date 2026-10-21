@@ -1,4 +1,4 @@
-# Parametric Cycles / v0.4 RC1
+# Parametric Cycles / v0.4.1
 
 These are original geometric positioning algorithms, independent of drilling technology and controller dialects. They run in Rust and in the self-contained offline browser. No solid modelling, Boolean analysis or production NC is involved.
 

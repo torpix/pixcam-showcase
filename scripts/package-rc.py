@@ -19,7 +19,7 @@ with zipfile.ZipFile(io.BytesIO(data)) as archive:
         assert not any(x in p.parts for x in ['.git','target','node_modules','test-results','agent_docs'])
         body=archive.read(item);assert body==Path(name).read_bytes(),name
         if name.endswith(('.png','.mp4','.solidcraft')):continue # same bytes as reviewed release gate
-        text=body.decode('utf-8').replace('/home/torpix/Aplikacje/solidcraft-cli-0.17.0','<PINNED_CLI>').replace('/home/torpix/Aplikacje/solidcraft-0.17.0.AppImage','<PINNED_GUI>')
+        text=body.decode('utf-8')
         assert not blocked.search(name+'\n'+text),name
     html=archive.read(prefix+'dist/index.html').decode()
     assert '__CYCLES_' not in html and 'Parametric Cycles' in html and 'CYCLE_RECTANGULAR_PATTERN' in html
