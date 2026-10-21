@@ -53,9 +53,11 @@ try {
   await page.screenshot({path:'media/06-solidcraft-connected.png',fullPage:true});
   // Real HTTP rejection tests: no token, hostile origin, Host DNS rebinding, raw tool routes.
   for(const headers of [{},{Origin:'https://evil.example','Content-Type':'application/json'},{Host:'evil.example'}]){
-    const r=await fetch(url+'api/refresh',{method:'POST',headers,body:'{}'});assert.equal(r.status,403);assert.equal(r.headers.get('access-control-allow-origin'),null);
+    // Keep the unauthorized body empty: closing a TCP socket with an unread body can surface as
+    // ECONNRESET in newer Node/undici releases even though the adapter correctly denied it.
+    const r=await fetch(url+'api/refresh',{method:'POST',headers,body:''});assert.equal(r.status,403);assert.equal(r.headers.get('access-control-allow-origin'),null);
   }
-  assert.equal((await fetch(url+'api/execute',{method:'POST',body:'{}'})).status,403);
+  assert.equal((await fetch(url+'api/execute',{method:'POST',body:''})).status,403);
   await page.click('#bridge-refresh');await page.waitForFunction(()=>!document.querySelector('#bridge-refresh').disabled,{},{timeout:65000});
   assert.match(await page.locator('#bridge-status').textContent(),/refreshed/);
   fs.writeFileSync('test-results/browser-connected.json',JSON.stringify({mode:process.env.SOLIDCRAFT_TEST_CONNECT?'GUI':'HEADLESS',document:active.document,feature_count:active.features.length,body_count:active.bodies.length,passed:true},null,2));
